@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Build the World</title><link>http://www.linuxyu.com/</link><description></description><atom:link href="http://www.linuxyu.com/feeds/life.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 02 Jul 2014 00:00:00 +0800</lastBuildDate><item><title>Hello World</title><link>http://www.linuxyu.com/pages/2014/07/02/hello_world.html</link><description>&lt;p&gt;按照程序员的惯例，开篇是我的 “&lt;strong&gt;Hello World&lt;/strong&gt; ”&lt;/p&gt;
+&lt;h3&gt;为什么写博客？&lt;/h3&gt;
+&lt;p&gt;因为好记忆不如烂笔头。&lt;/p&gt;
+&lt;p&gt;我想记下学习过程中的收获，整理和完善，加强记忆，同时分享给所有人；&lt;/p&gt;
+&lt;p&gt;我想记下生活的感悟，经常翻看，时刻提醒自己要更加成熟优秀；&lt;/p&gt;
+&lt;p&gt;我不想一辈子平庸，我想为自己想做事付出行动，这个博客虽然很小，但是可以见证出我行动！&lt;/p&gt;
+&lt;h3&gt;为什么博客地址是 www.linuxyu.com&lt;/h3&gt;
+&lt;p&gt;Linux 是我很喜欢的操作系统，也是我希望以后能持续发展的技术平台，它代表着我的工作。&lt;/p&gt;
+&lt;p&gt;Yu 是我的爱人，我们至今已相恋四年多，生活中有她陪伴我很知足，她就代表我的生活。&lt;/p&gt;
+&lt;h3&gt;为什么博客名字叫 Build the World&lt;/h3&gt;
+&lt;p&gt;构造我们的世界，构造我们的未来，我希望自己也能有所创造。名字易变，但主旨不变。&lt;/p&gt;
+&lt;p&gt;一直比较信仰这句话：修身，齐家，治国，平天下。现在的我正在走在这条道路上。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">sunjianhua</dc:creator><pubDate>Wed, 02 Jul 2014 00:00:00 +0800</pubDate><guid>tag:www.linuxyu.com,2014-07-02:pages/2014/07/02/hello_world.html</guid><category>hello world</category></item></channel></rss>

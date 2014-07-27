@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Build the World</title><link href="http://www.linuxyu.com/" rel="alternate"></link><link href="http://www.linuxyu.com/feeds/all-zh_cn.atom.xml" rel="self"></link><id>http://www.linuxyu.com/</id><updated>2014-07-27T00:00:00+08:00</updated><entry><title>一道google面试题</title><link href="http://www.linuxyu.com/pages/2014/07/27/google_prime.html" rel="alternate"></link><updated>2014-07-27T00:00:00+08:00</updated><author><name>sunjianhua</name></author><id>tag:www.linuxyu.com,2014-07-27:pages/2014/07/27/google_prime.html</id><summary type="html">&lt;p&gt;Google早几年在美国很多地铁的出站口都有大幅招聘广告，它的第一题如下了：{first 10-digit prime found in consecutive digits e}.com，也就是e中出现的连续的第一个10个数字组成的质数。据说当时只要正确解答了这道题，在浏览器的地址栏中输入这个答案，就可以进入下一轮的测试，整个测试过程如同一个数学迷宫，直到你成为google的一员。&lt;/p&gt;
+&lt;p&gt;对这题比较感兴趣，就暂时开题，这两天动笔完成这篇博客。&lt;/p&gt;</summary><category term="prime"></category></entry><entry><title>Hello World</title><link href="http://www.linuxyu.com/pages/2014/07/02/hello_world.html" rel="alternate"></link><updated>2014-07-02T00:00:00+08:00</updated><author><name>sunjianhua</name></author><id>tag:www.linuxyu.com,2014-07-02:pages/2014/07/02/hello_world.html</id><summary type="html">&lt;p&gt;按照程序员的惯例，开篇是我的 “&lt;strong&gt;Hello World&lt;/strong&gt; ”&lt;/p&gt;
+&lt;h3&gt;为什么写博客？&lt;/h3&gt;
+&lt;p&gt;因为好记忆不如烂笔头。&lt;/p&gt;
+&lt;p&gt;我想记下学习过程中的收获，整理和完善，加强记忆，同时分享给所有人；&lt;/p&gt;
+&lt;p&gt;我想记下生活的感悟，经常翻看，时刻提醒自己要更加成熟优秀；&lt;/p&gt;
+&lt;p&gt;我不想一辈子平庸，我想为自己想做事付出行动，这个博客虽然很小，但是可以见证出我行动！&lt;/p&gt;
+&lt;h3&gt;为什么博客地址是 www.linuxyu.com&lt;/h3&gt;
+&lt;p&gt;Linux 是我很喜欢的操作系统，也是我希望以后能持续发展的技术平台，它代表着我的工作。&lt;/p&gt;
+&lt;p&gt;Yu 是我的爱人，我们至今已相恋四年多，生活中有她陪伴我很知足，她就代表我的生活。&lt;/p&gt;
+&lt;h3&gt;为什么博客名字叫 Build the World&lt;/h3&gt;
+&lt;p&gt;构造我们的世界，构造我们的未来，我希望自己也能有所创造。名字易变，但主旨不变。&lt;/p&gt;
+&lt;p&gt;一直比较信仰这句话：修身，齐家，治国，平天下。现在的我正在走在这条道路上。&lt;/p&gt;</summary><category term="hello world"></category></entry></feed>
