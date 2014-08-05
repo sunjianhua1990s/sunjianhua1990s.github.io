@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+    <meta charset="utf-8">
+    <title>Build the World</title>
+    <meta name="description" content="">
+    <meta name="author" content="sunjianhua">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../theme/bootstrap.min.css" rel="stylesheet">
+    <link href="../theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="../theme/local.css" rel="stylesheet">
+    <link href="../theme/pygments.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="..">Build the World</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+            <li><a href="../pages/about.html">About</a></li>
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+
+    <div class='article'>
+        <div class="content-title">
+            <a href="../pages/2014/06/02/head_first_template_method.html"><h1>《Head First 设计模式》学习笔记——模板方法模式</h1></a>
+2014-06-02
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ 
+        </div>
+        
+        <div><p>模板方法模式是类的行为模式。准备一个抽象类，将部分逻辑以具体方法以及具体构造函数的形式实现，然后声明一些抽象方法来迫使子类实现剩余的逻辑。不同的子类可以以不同的方式实现这些抽象方法，从而对剩余的逻辑有不同的实现。这就是模板方法模式的用意。</p>
+<h2>设计模式</h2>
+<p><strong>模板方法模式</strong>：在一个方法中定义一个算法的框架，而将一些步骤延迟到子类中。模板方法使得子类可以在不改变算法结果的情况下，重新定义算法中的某些步骤。</p>
+<p>模板就是一个方法，这个方法将算法定义成一组步骤，其中的任何步骤都可以是抽象的，由子类负责实现。这样可以确保算法的结构保持不变，同时由子类提供部分实现。</p>
+<p><strong>钩子</strong>是一种被声明在抽象类中的方法，但只有空或默认的实现，钩子的存在，可以让子类有能力对算法的不同点进行挂钩，要不要挂钩，有子类自行决定。</p>
+<p><strong>使用钩子的真正目的</strong>：
+钩子可以让子类实现算法中可选的部分，或者在钩子对于子类的实现并不重要的时候，子类可以对此钩子置之不理。钩子的另一个用法，是让子类能够有机会对模板方法中某些即将发生的（或刚刚发生的）步骤做出反应。</p>
+<h2>设计原则</h2>
+<p><strong>好莱坞原则</strong>：别调用我们，我们会调用你。</p>
+<p>在好莱坞原则下，我们允许低层组件将自己挂钩到系统之上，但是高层组件会决定什么时候和怎样使用这些低层组件。换句话说，高层组件对低层组件的方式是“别调用我们，我们会调用你”。</p>
+<h2>要点</h2>
+<p>“模板方法”定义了算法的步骤，把这些步骤的实现延迟到子类中。</p>
+<p>模板方法模式为我们提供了一种代码复用的重要技巧。</p>
+<p>模板方法的抽象类可以定义具体方法、抽象方法、钩子。</p>
+<p>为了防止子类改变模板方法中的算法，我们可以将模板方法声明为final。</p>
+<p>策略模式和模板方法模式都是封装算法，前者是使用组合，后者是使用继承。</p>
+<p>工厂方法是模板方式的一种特殊版本。</p>
+<h2>典型的摸板方法应用</h2>
+<ol>
+<li>HttpServlet技术</li>
+<li>Swing的窗口程序</li>
+<li>Applet</li>
+</ol>
+<h2>模板方法模式</h2>
+<div class="highlight"><pre><span class="c1">//声明为抽象类，子类必须实现其操作</span>
+<span class="n">public</span> <span class="n">abstract</span> <span class="k">class</span> <span class="n">CaffeineBeverage</span>
+<span class="p">{</span>
+
+    <span class="c1">//声明为final，不希望子类覆盖这个方法</span>
+    <span class="k">final</span> <span class="k">void</span> <span class="n">prepareRecipe</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">boilWater</span><span class="p">();</span>
+        <span class="n">brew</span><span class="p">();</span>
+        <span class="n">pourInCup</span><span class="p">();</span>
+        <span class="n">addCondiments</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">//声明为抽象类，子类必须实现其操作</span>
+    <span class="n">abstract</span> <span class="k">void</span> <span class="n">brew</span><span class="p">();</span>
+    <span class="n">abstract</span> <span class="k">void</span> <span class="n">addCondiments</span><span class="p">();</span>
+
+    <span class="k">void</span> <span class="n">boilWater</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Boiling water&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">void</span> <span class="n">pourInCup</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Pouring into cup&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//extends继承</span>
+<span class="n">public</span> <span class="k">class</span> <span class="n">Tea</span> <span class="k">extends</span> <span class="n">CaffeineBeverage</span> <span class="p">{</span>
+    <span class="c1">//需要定义抽象方法</span>
+    <span class="n">public</span> <span class="k">void</span> <span class="n">brew</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Steeping the tea&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">public</span> <span class="k">void</span> <span class="n">addCondiments</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Adding Lemon&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2>使用钩子</h2>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">abstract</span> <span class="n">class</span> <span class="n">CaffeineBeverageWithHook</span> <span class="p">{</span>
+
+    <span class="kt">void</span> <span class="n">prepareRecipe</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">boilWater</span><span class="p">();</span>
+        <span class="n">brew</span><span class="p">();</span>
+        <span class="n">pourInCup</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">customerWantsCondiments</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">addCondiments</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">abstract</span> <span class="kt">void</span> <span class="n">brew</span><span class="p">();</span>
+
+    <span class="n">abstract</span> <span class="kt">void</span> <span class="nf">addCondiments</span><span class="p">();</span>
+
+    <span class="kt">void</span> <span class="nf">boilWater</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Boiling water&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">pourInCup</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Pouring into cup&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">//定义了一个缺省实现，子类可以覆盖它，但不见得一定要这么做</span>
+    <span class="n">boolean</span> <span class="nf">customerWantsCondiments</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">class</span> <span class="n">CoffeeWithHook</span> <span class="n">extends</span> <span class="n">CaffeineBeverageWithHook</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="kt">void</span> <span class="n">brew</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Dripping Coffee through filter&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="kt">void</span> <span class="n">addCondiments</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Adding Sugar and Milk&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">//覆盖了这个方法，提供了自己的功能</span>
+    <span class="n">public</span> <span class="n">boolean</span> <span class="n">customerWantsCondiments</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="c1">//让用户输入对调料的决定</span>
+        <span class="n">String</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">getUserInput</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">answer</span><span class="p">.</span><span class="n">toLowerCase</span><span class="p">().</span><span class="n">startsWith</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">private</span> <span class="n">String</span> <span class="n">getUserInput</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">String</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Would you like milk and sugar with your coffee (y/n)? &quot;</span><span class="p">);</span>
+
+        <span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="n">new</span> <span class="n">BufferedReader</span><span class="p">(</span><span class="n">new</span> <span class="n">InputStreamReader</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">in</span><span class="p">));</span>
+        <span class="n">try</span> <span class="p">{</span>
+            <span class="n">answer</span> <span class="o">=</span> <span class="n">in</span><span class="p">.</span><span class="n">readLine</span><span class="p">();</span>
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">ioe</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">err</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;IO error trying to read your answer&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">answer</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="s">&quot;no&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div></div>
+        <hr />
+    </div>
+		
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="../tag/mo-ban-fang-fa-mo-shi.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="../archives.html">Archives</a>
+                <li><a href="../tags.html">Tags</a>
+                <li><a href="http://www.linuxyu.com/" rel="alternate">Atom feed</a></li>
+                <li><a href="http://www.linuxyu.com/feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="../category/life.html">Life</a></li>
+                <li><a href="../category/tech.html">Tech</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://74.125.20.33/">Google</a></li>
+                <li><a href="http://python.org/">Python</a></li>
+                <li><a href="http://docs.getpelican.com/">Pelican</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="https://github.com/sunjianhua1990s">Github</a></li>
+                <li><a href="http://blog.csdn.net/huaxi1902">CSDN</a></li>
+                <li><a href="">知乎</a></li>
+                <li><a href="">豆瓣</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="..">Build the World</a> &copy; sunjianhua 2012</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
+<script>var _gaq=[['_setAccount','UA-52496177-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+<a href="https://github.com/sunjianhua1990s"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
+ 
+</body>
+</html>

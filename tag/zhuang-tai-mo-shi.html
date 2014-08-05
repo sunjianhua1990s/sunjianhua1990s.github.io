@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+    <meta charset="utf-8">
+    <title>Build the World</title>
+    <meta name="description" content="">
+    <meta name="author" content="sunjianhua">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../theme/bootstrap.min.css" rel="stylesheet">
+    <link href="../theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="../theme/local.css" rel="stylesheet">
+    <link href="../theme/pygments.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="..">Build the World</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+            <li><a href="../pages/about.html">About</a></li>
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+
+    <div class='article'>
+        <div class="content-title">
+            <a href="../pages/2014/06/02/head_first_state.html"><h1>《Head First 设计模式》学习笔记——状态模式</h1></a>
+2014-06-02
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ 
+        </div>
+        
+        <div><p>在软件开发过程中，应用程序可能会根据不同的情况作出不同的处理。最直接的解决方案是将这些所有可能发生的情况全都考虑到。然后使用if... ellse语句来做状态判断来进行不同情况的处理。但是对复杂状态的判断就显得“力不从心了”。随着增加新的状态或者修改一个状体（if else(或switch case)语句的增多或者修改）可能会引起很大的修改，而程序的可读性，扩展性也会变得很弱。维护也会很麻烦。那么我就考虑只修改自身状态的模式。</p>
+<h2>设计模式</h2>
+<p><strong>状态模式</strong>：允许对象在内部状态改变时改变他的行为，对象看起来好像修改了它的类。</p>
+<p>这个模式将状态封装称为独立的类，并将动作委托到代表当前状态的对象，我们知道行为会随着内部状态而改变。</p>
+<h2>设计原则</h2>
+<ol>
+<li>封装变化</li>
+<li>多用组合，少用继承</li>
+<li>针对接口编程，不针对实现编程</li>
+<li>为交互对象之间松耦合设计而努力</li>
+<li>类应该对扩展开发，对修改关闭</li>
+<li>依赖抽象，不依赖具体类</li>
+<li>只和朋友交谈</li>
+<li>别找我，我会找你</li>
+<li>类应该只有一个改变的理由</li>
+</ol>
+<h2>要点</h2>
+<p>状态模式允许一个对象基于内部状态而拥有不同的行为。</p>
+<p>和程序状态机不同，状态模式用类代表状态。</p>
+<p>策略模式通常会用行为或算法来配置context类，状态模式允许context随着状态改变而</p>
+<p>改变行为，状态转变可以由state类或context类控制。</p>
+<p>使用状态模式会导致设计模式中类的数目大量增加。</p>
+<p>状态类可以被多个context共享。</p>
+<h2>模型匹配</h2>
+<p><strong>状态模型</strong>          封装基于状态的行为，并将行为委托到当前状态</p>
+<p><strong>策略模型</strong>          将可以互换的行为封装起来，然后使用委托的方法，决定使用哪一个行为。</p>
+<p><strong>模板方法模型</strong>    由子类决定实现算法的某些步骤</p>
+<h2>何时使用?</h2>
+<p>State模式在实际使用中比较多,适合"状态的切换".因为我们经常会使用If elseif else 进行状态切换, 如果针对状态的这样判断切换反复出现,我们就要联想到是否可以采取State模式了.</p>
+<p>不只是根据状态,也有根据属性.如果某个对象的属性不同,对象的行为就不一样,这点在数据库系统中出现频率比较高,我们经常会在一个数据表的尾部,加上property属性含义的字段,用以标识记录中一些特殊性质的记录,这种属性的改变(切换)又是随时可能发生的,就有可能要使用State.</p>
+<h2>状态模式</h2>
+<div class="highlight"><pre><span class="c1">//状态接口</span>
+<span class="n">public</span> <span class="k">interface</span> <span class="n">State</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">insertQuarter</span><span class="p">();</span>
+    <span class="n">public</span> <span class="k">void</span> <span class="n">ejectQuarter</span><span class="p">();</span>
+    <span class="n">public</span> <span class="k">void</span> <span class="n">turnCrank</span><span class="p">();</span>
+    <span class="n">public</span> <span class="k">void</span> <span class="n">dispense</span><span class="p">();</span>
+<span class="p">}</span>
+
+
+<span class="c1">//实现状态接口</span>
+<span class="n">public</span> <span class="k">class</span> <span class="n">NoQuarterState</span> <span class="n">implements</span> <span class="n">State</span> <span class="p">{</span>
+    <span class="n">GumballMachine</span> <span class="n">gumballMachine</span><span class="p">;</span>
+
+    <span class="c1">//通过构造器，得到糖果机的引用</span>
+    <span class="n">public</span> <span class="n">NoQuarterState</span><span class="p">(</span><span class="n">GumballMachine</span> <span class="n">gumballMachine</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">gumballMachine</span> <span class="o">=</span> <span class="n">gumballMachine</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">insertQuarter</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;You inserted a quarter&quot;</span><span class="p">);</span>
+        <span class="n">gumballMachine</span><span class="p">.</span><span class="n">setState</span><span class="p">(</span><span class="n">gumballMachine</span><span class="p">.</span><span class="n">getHasQuarterState</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">ejectQuarter</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;You haven&#39;t inserted a quarter&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">turnCrank</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;You turned, but there&#39;s no quarter&quot;</span><span class="p">);</span>
+     <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">dispense</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;You need to pay first&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">String</span> <span class="n">toString</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;waiting for quarter&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="n">public</span> <span class="k">class</span> <span class="n">HasQuarterState</span> <span class="n">implements</span> <span class="n">State</span> <span class="p">{</span>
+    <span class="c1">//添加一个随机数产生器</span>
+    <span class="n">Random</span> <span class="n">randomWinner</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">currentTimeMillis</span><span class="p">());</span>
+    <span class="n">GumballMachine</span> <span class="n">gumballMachine</span><span class="p">;</span>
+
+    <span class="n">public</span> <span class="n">HasQuarterState</span><span class="p">(</span><span class="n">GumballMachine</span> <span class="n">gumballMachine</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">gumballMachine</span> <span class="o">=</span> <span class="n">gumballMachine</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">insertQuarter</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;You can&#39;t insert another quarter&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">ejectQuarter</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Quarter returned&quot;</span><span class="p">);</span>
+        <span class="n">gumballMachine</span><span class="p">.</span><span class="n">setState</span><span class="p">(</span><span class="n">gumballMachine</span><span class="p">.</span><span class="n">getNoQuarterState</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">turnCrank</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;You turned...&quot;</span><span class="p">);</span>
+
+        <span class="c1">//决定这名顾客是否赢了</span>
+        <span class="k">int</span> <span class="n">winner</span> <span class="o">=</span> <span class="n">randomWinner</span><span class="p">.</span><span class="n">nextInt</span><span class="p">(</span><span class="mh">10</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">winner</span> <span class="o">==</span> <span class="mh">0</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">gumballMachine</span><span class="p">.</span><span class="n">getCount</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mh">1</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">gumballMachine</span><span class="p">.</span><span class="n">setState</span><span class="p">(</span><span class="n">gumballMachine</span><span class="p">.</span><span class="n">getWinnerState</span><span class="p">());</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">gumballMachine</span><span class="p">.</span><span class="n">setState</span><span class="p">(</span><span class="n">gumballMachine</span><span class="p">.</span><span class="n">getSoldState</span><span class="p">());</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">dispense</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;No gumball dispensed&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">String</span> <span class="n">toString</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;waiting for turn of crank&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="c1">//实现糖果机</span>
+<span class="n">public</span> <span class="k">class</span> <span class="n">GumballMachine</span> <span class="p">{</span>
+    <span class="c1">//所有的状态都在这里</span>
+    <span class="n">State</span> <span class="n">soldOutState</span><span class="p">;</span>
+    <span class="n">State</span> <span class="n">noQuarterState</span><span class="p">;</span>
+    <span class="n">State</span> <span class="n">hasQuarterState</span><span class="p">;</span>
+    <span class="n">State</span> <span class="n">soldState</span><span class="p">;</span>
+    <span class="n">State</span> <span class="n">winnerState</span><span class="p">;</span>
+
+    <span class="n">State</span> <span class="n">state</span> <span class="o">=</span> <span class="n">soldOutState</span><span class="p">;</span>
+    <span class="k">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
+
+    <span class="n">public</span> <span class="n">GumballMachine</span><span class="p">(</span><span class="k">int</span> <span class="n">numberGumballs</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//每种状态创建一个状态实例</span>
+        <span class="n">soldOutState</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SoldOutState</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+        <span class="n">noQuarterState</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NoQuarterState</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+        <span class="n">hasQuarterState</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HasQuarterState</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+        <span class="n">soldState</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SoldState</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+        <span class="n">winnerState</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WinnerState</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="n">count</span> <span class="o">=</span> <span class="n">numberGumballs</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">numberGumballs</span> <span class="o">&gt;</span> <span class="mh">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">noQuarterState</span><span class="p">;</span>
+        <span class="p">}</span> 
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">insertQuarter</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">state</span><span class="p">.</span><span class="n">insertQuarter</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">ejectQuarter</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">state</span><span class="p">.</span><span class="n">ejectQuarter</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">turnCrank</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">state</span><span class="p">.</span><span class="n">turnCrank</span><span class="p">();</span>
+        <span class="n">state</span><span class="p">.</span><span class="n">dispense</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">void</span> <span class="n">setState</span><span class="p">(</span><span class="n">State</span> <span class="n">state</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">void</span> <span class="n">releaseBall</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;A gumball comes rolling out the slot...&quot;</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">!=</span> <span class="mh">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">-</span> <span class="mh">1</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">int</span> <span class="n">getCount</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">void</span> <span class="n">refill</span><span class="p">(</span><span class="k">int</span> <span class="n">count</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">count</span> <span class="o">=</span> <span class="n">count</span><span class="p">;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">noQuarterState</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">State</span> <span class="n">getState</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">state</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">State</span> <span class="n">getSoldOutState</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">soldOutState</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">State</span> <span class="n">getNoQuarterState</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">noQuarterState</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">State</span> <span class="n">getHasQuarterState</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">hasQuarterState</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">State</span> <span class="n">getSoldState</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">soldState</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">State</span> <span class="n">getWinnerState</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">winnerState</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">String</span> <span class="n">toString</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">StringBuffer</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="p">();</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Mighty Gumball, Inc.&quot;</span><span class="p">);</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Java-enabled Standing Gumball Model #2004&quot;</span><span class="p">);</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Inventory: &quot;</span> <span class="o">+</span> <span class="n">count</span> <span class="o">+</span> <span class="s">&quot; gumball&quot;</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">!=</span> <span class="mh">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;s&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;Machine is &quot;</span> <span class="o">+</span> <span class="n">state</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">.</span><span class="n">toString</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kn">package</span> <span class="n">net</span><span class="p">.</span><span class="n">dp</span><span class="p">.</span><span class="n">state</span><span class="p">.</span><span class="n">gumballstatewinner</span><span class="p">;</span>
+
+<span class="n">public</span> <span class="k">class</span> <span class="n">GumballMachineTestDrive</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">GumballMachine</span> <span class="n">gumballMachine</span> <span class="o">=</span> 
+            <span class="k">new</span> <span class="n">GumballMachine</span><span class="p">(</span><span class="mh">10</span><span class="p">);</span>
+
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">gumballMachine</span><span class="p">);</span>
+
+        <span class="n">gumballMachine</span><span class="p">.</span><span class="n">insertQuarter</span><span class="p">();</span>
+        <span class="n">gumballMachine</span><span class="p">.</span><span class="n">turnCrank</span><span class="p">();</span>
+        <span class="n">gumballMachine</span><span class="p">.</span><span class="n">insertQuarter</span><span class="p">();</span>
+        <span class="n">gumballMachine</span><span class="p">.</span><span class="n">turnCrank</span><span class="p">();</span>
+
+        <span class="c1">//再在转动执行多次</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div></div>
+        <hr />
+    </div>
+		
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="../tag/zhuang-tai-mo-shi.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="../archives.html">Archives</a>
+                <li><a href="../tags.html">Tags</a>
+                <li><a href="http://www.linuxyu.com/" rel="alternate">Atom feed</a></li>
+                <li><a href="http://www.linuxyu.com/feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="../category/life.html">Life</a></li>
+                <li><a href="../category/tech.html">Tech</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://74.125.20.33/">Google</a></li>
+                <li><a href="http://python.org/">Python</a></li>
+                <li><a href="http://docs.getpelican.com/">Pelican</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="https://github.com/sunjianhua1990s">Github</a></li>
+                <li><a href="http://blog.csdn.net/huaxi1902">CSDN</a></li>
+                <li><a href="">知乎</a></li>
+                <li><a href="">豆瓣</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="..">Build the World</a> &copy; sunjianhua 2012</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
+<script>var _gaq=[['_setAccount','UA-52496177-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+<a href="https://github.com/sunjianhua1990s"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
+ 
+</body>
+</html>

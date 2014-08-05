@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+    <meta charset="utf-8">
+    <title>Build the World</title>
+    <meta name="description" content="">
+    <meta name="author" content="sunjianhua">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../theme/bootstrap.min.css" rel="stylesheet">
+    <link href="../theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="../theme/local.css" rel="stylesheet">
+    <link href="../theme/pygments.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="..">Build the World</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+            <li><a href="../pages/about.html">About</a></li>
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+
+    <div class='article'>
+        <div class="content-title">
+            <a href="../pages/2014/05/27/head_first_strategy.html"><h1>《Head First 设计模式》学习笔记——策略模式</h1></a>
+2014-05-27
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ 
+        </div>
+        
+        <div><p>我们全都使用别人设计好的库与框架。我们讨论库与框架、利用他们的API编译成我们的程序、享受运用别人的代码所带来的优点。看看java api它所带来的功能：网络、GUI、IO等。库与框架长久以来，一直扮演着软件开发过程的重要角色，我们从中挑选所要的组件，把他们放进合适的地方。但是，<strong>库与框架无法帮助我们将应用组织成容易了解、容易维护、具有弹性的架构，所以要设计模式</strong>。</p>
+<p>设计模式不会直接进入你的代码中，而是先进入你的“大脑”中。一旦你先在脑海中装入了许多关于模式的知识，就能够开始新设计中采用它们，并当你的旧代码变得如同搅和成一团没有弹性的意大利面一样时，可以用它们重做旧代码。————题记</p>
+<h2>面向对象的设计原则</h2>
+<ol>
+<li><strong>封装变化</strong>————找出应用中可能需要变化之处，把它们独立出来，不要和那些变化的代码混在一起。也即把变化的部分取出来并封装起来，以便以后可以轻而易举地改动或者扩充此部分，而不影响不需要变化的其他部分。</li>
+<li><strong>针对接口编程，而非针对实现编程</strong>————“针对接口编程”，关键在于多态。利用多态，程序可以针对超类型编程，执行时会根据实际状况执行到真正的行为，不会被绑死在超类型的行为上。“针对超类型编程”这句话可以更明确的说成是变量的声明类应该是超类型，通常是一个抽象类或者一个接口，如此，只要是具体实现此超类型的类所产生的对象，都可以指定给这个变量。也就意味着，声明类时不用理会以后执行时的真正对象类型。</li>
+<li><strong>多用组合，少用继承</strong>————通过组合建立系统具有很大的弹性，不仅可将算法族封装成类，还可以“在运行时动态改变行为”，只要组合的行为对象符合正确的接口标准即可。</li>
+</ol>
+<p><strong>继承的缺点</strong>：</p>
+<ol>
+<li>代码在多个子类中重复，因为所有子类需要覆盖父类的抽象方法；</li>
+<li>子类运行时不容易改变状态，因为没有setter方法；</li>
+<li>很难知道所有子类的全部行为；</li>
+<li>改变牵一发而动全身，造成其他子类不想要的改变。</li>
+</ol>
+<h2>要点</h2>
+<p>知道OO基础，并不足以让你设计出良好的OO系统。</p>
+<p>良好的OO设计必须具备可复用、可扩充、可维护三个特性。</p>
+<p>模式不是代码，而是针对设计问题的通用解决方案。</p>
+<h2>设计模式</h2>
+<p><strong>策略模式</strong>：定义了算法族，分别封装起来，让他们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。</p>
+<h2>抽象的几个概念：</h2>
+<ol>
+<li>抽象方法abstract，父类的抽象方法主要作用为占位，由子类来实现；</li>
+<li>为了提高清晰度，包含一个或多个抽象方法的类本身必须声明为抽象类；</li>
+<li>类即使不包含抽象方法，也可以声明为抽象类；</li>
+<li>抽象类不能被实例化。</li>
+</ol>
+<h2>策略模式</h2>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">abstract</span> <span class="n">class</span> <span class="n">duck</span> <span class="p">{</span>
+
+    <span class="n">FlyBehavior</span> <span class="n">flybehavior</span><span class="p">;</span>
+    <span class="n">QuackBehavior</span> <span class="n">quackbehavior</span><span class="p">;</span>
+    <span class="n">public</span> <span class="nf">duck</span><span class="p">(){</span>
+    <span class="p">}</span>
+
+    <span class="c1">//抽象类</span>
+    <span class="n">public</span> <span class="kt">void</span> <span class="n">abstract</span> <span class="nf">display</span><span class="p">();</span>
+
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">performFly</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">flybehavior</span><span class="p">.</span><span class="n">fly</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">performQuack</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">quackbehavior</span><span class="p">.</span><span class="n">quack</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">swim</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;All ducks float, even decoys.&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">//设定动态行为</span>
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">setFlyBehavior</span><span class="p">(</span><span class="n">FlyBehavior</span> <span class="n">fb</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">flybehavior</span> <span class="o">=</span> <span class="n">fb</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">setQuackBehavior</span><span class="p">(</span><span class="n">QuackBehavior</span> <span class="n">qb</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">quackbehavior</span> <span class="o">=</span> <span class="n">qb</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">interface</span> <span class="n">Flybehavior</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="kt">void</span> <span class="n">fly</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">interface</span> <span class="n">Quackbehavior</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="kt">void</span> <span class="n">quack</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div></div>
+        <hr />
+    </div>
+		
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="../tag/ce-lue-mo-shi.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="../archives.html">Archives</a>
+                <li><a href="../tags.html">Tags</a>
+                <li><a href="http://www.linuxyu.com/" rel="alternate">Atom feed</a></li>
+                <li><a href="http://www.linuxyu.com/feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="../category/life.html">Life</a></li>
+                <li><a href="../category/tech.html">Tech</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://74.125.20.33/">Google</a></li>
+                <li><a href="http://python.org/">Python</a></li>
+                <li><a href="http://docs.getpelican.com/">Pelican</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="https://github.com/sunjianhua1990s">Github</a></li>
+                <li><a href="http://blog.csdn.net/huaxi1902">CSDN</a></li>
+                <li><a href="">知乎</a></li>
+                <li><a href="">豆瓣</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="..">Build the World</a> &copy; sunjianhua 2012</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
+<script>var _gaq=[['_setAccount','UA-52496177-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+<a href="https://github.com/sunjianhua1990s"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
+ 
+</body>
+</html>

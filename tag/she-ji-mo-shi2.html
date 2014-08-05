@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+    <meta charset="utf-8">
+    <title>Build the World</title>
+    <meta name="description" content="">
+    <meta name="author" content="sunjianhua">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../theme/bootstrap.min.css" rel="stylesheet">
+    <link href="../theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="../theme/local.css" rel="stylesheet">
+    <link href="../theme/pygments.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="..">Build the World</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+            <li><a href="../pages/about.html">About</a></li>
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+ 
+
+    <div class='article'>
+        <a href="../pages/2014/06/02/head_first_template_method.html"><h2>《Head First 设计模式》学习笔记——模板方法模式</h2></a>
+        <div class= "well small"> 2014-06-02
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>模板方法模式是类的行为模式。准备一个抽象类，将部分逻辑以具体方法以及具体构造函数的形式实现，然后声明一些抽象方法来迫使子类实现剩余的逻辑。不同的子类可以以不同的方式实现这些抽象方法，从而对剩余的逻辑有不同的实现。这就是模板方法模式的用意。</p>
+<h2>设计模式</h2>
+<p><strong>模板方法模式</strong>：在一个方法中定义一个算法的框架，而将一些步骤延迟到子类中。模板方法使得子类可以在不改变算法结果的情况下，重新定义算法中的某些步骤。</p>
+<p>模板就是一个方法，这个方法将算法定义成一组步骤，其中的任何步骤都可以是抽象的，由子类负责实现。这样可以确保算法的结构保持不变，同时由子类提供部分实现。</p>
+<p><strong>钩子</strong>是一种被声明在抽象类中的方法，但只有空或默认的实现，钩子的存在，可以让子类有能力对算法的不同点进行挂钩，要不要挂钩，有子类自行决定。</p>
+<p><strong>使用钩子的真正目的</strong>：
+钩子可以让子类实现算法中可选的部分，或者在钩子对于子类的实现并不重要的时候，子类可以对此钩子置之不理。钩子的另一个用法，是让子类能够有机会对模板方法中某些即将发生的（或刚刚发生的）步骤做出反应。</p>
+<h2>设计原则</h2>
+<p><strong>好莱坞原则</strong>：别调用我们，我们会调用你。</p>
+<p>在好莱坞原则下，我们允许低层组件将自己挂钩到系统之上，但是高层组件会决定什么时候和怎样使用这些低层组件。换句话说，高层组件对低层组件的方式是“别调用我们，我们会调用你”。</p>
+<h2>要点</h2>
+<p>“模板方法”定义了算法的步骤，把这些步骤的实现延迟到子类中。</p>
+<p>模板方法模式为我们提供了一种代码复用的重要技巧 ...</p> <a class="btn btn-info xsmall" href="../pages/2014/06/02/head_first_template_method.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="../pages/2014/06/01/head_first_command.html"><h2>《Head First 设计模式》学习笔记——命令模式</h2></a>
+        <div class= "well small"> 2014-06-01
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>在软件系统中，“行为请求者”与“行为实现者”通常呈现一种“紧耦合”。但在某些场合，比如要对行为进行“记录、撤销/重做、事务”等处理，这种无法抵御变化的紧耦合是不合适的。在这种情况下，如何将“行为请求者”与“行为实现者”解耦？将一组行为抽象为对象，实现二者之间的松耦合，这就是命令模式（Command Pattern）。</p>
+<h2>设计模式</h2>
+<p><strong>命令模式</strong>：将“请求”封装成对象，以便使用不同的请求、队列或者日志来参数化其他对象。命令模式也支持可撤销的操作。</p>
+<h2>模式分析</h2>
+<ol>
+<li>命令模式的本质是对命令进行封装，将发出命令的责任和执行命令的责任分割开。</li>
+<li>每一个命令都是一个操作：请求的一方发出请求，要求执行一个操作；接收的一方收到请求，并执行操作。</li>
+<li>命令模式允许请求的一方和接收的一方独立开来，使得请求的一方不必知道接收请求的一方的接口，更不必知道请求是怎么被接收，以及操作是否被执行、何时被执行，以及是怎么被执行的。</li>
+<li>命令模式使请求本身成为一个对象，这个对象和其他对象一样可以被存储和传递。</li>
+<li>命令模式的关键在于引入了抽象命令接口 ...</li></ol> <a class="btn btn-info xsmall" href="../pages/2014/06/01/head_first_command.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="../pages/2014/05/30/head_first_singleton.html"><h2>《Head First 设计模式》学习笔记——单件模式</h2></a>
+        <div class= "well small"> 2014-05-30
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><h2>设计模式</h2>
+<p>单件模式：确保一个类只有一个实例，并提供一个全局访问点。</p>
+<h2>要点</h2>
+<p>单件模式确保程序中一个类最多只有一个实例。</p>
+<p>在Java中实现单件模式需要<strong>私有的构造器</strong>、一个<strong>静态方法</strong>、一个<strong>静态变量</strong>。</p>
+<p>确定在性能和资源上的限制，然后小心翼翼的选择适当的方案来实现单件，以解决多线程问题。</p>
+<h2>全局变量缺点</h2>
+<p>如果将对象赋值给一个全局变量，那么必须在程序一开始就创建好对象。万一对象非常耗费资源，而程序在这次执行过程中并没有使用它，就形成了浪费。</p>
+<h2>单件模式</h2>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">Singleton</span> <span class="p">{</span>
+    <span class="c1">//利用一个静态变量来记录Singleton类的唯一实例</span>
+    <span class="n">private</span> <span class="k">static</span> <span class="n">Singleton</span> <span class="n">uniqueInstance</span><span class="p">;</span>
+
+    <span class="c1">//把构造器声明为私有，没有公开的构造器，避免了产生多个实例。需要获得实例时，调用Singleton.getInstance().</span>
+    <span class="n">private</span> <span class="nf">Singleton</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="c1">//静态方法，是一个“类”的方法。引用一个静态方法，只需要使用类名，不需要对象名</span>
+    <span class="n">public</span> <span class="k">static</span> <span class="n">Singleton</span> <span class="nf">getInstance</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if ...</span></pre></div> <a class="btn btn-info xsmall" href="../pages/2014/05/30/head_first_singleton.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="../pages/2014/05/29/head_first_factory.html"><h2>《Head First 设计模式》学习笔记——工厂模式 + 抽象工厂模式</h2></a>
+        <div class= "well small"> 2014-05-29
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><h2>设计模式</h2>
+<p><strong>工厂模式</strong>：定义一个创建对象的接口，但由子类决定要实例化的是哪一个。工厂方法让类把实例化推迟到子类。</p>
+<p>所谓的“决定”，并不是指模式允许子类本身在运行时做决定，而是指在编写创建者类时，不需要知道实际创建的产品是哪一个。选择了使用这个子类，就自然的决定了实际创建的产品是什么。</p>
+<p><strong>抽象工厂模式</strong>：提供一个接口，用于创建相关或依赖对象的家族，而不需要指定具体类。</p>
+<p>抽象工厂的任务时定义一个负责创建一组产品的接口。这个接口内的每个产品都负责创建一个具体产品，使用工厂方法。</p>
+<h2>设计原则</h2>
+<ol>
+<li>多用组合，少用继承</li>
+<li>针对接口编程，不针对实现编程</li>
+<li>为交互对象之间的松耦合设计而努力</li>
+<li>类应该对扩展开放，对修改关闭</li>
+<li>依赖倒用原则：要依赖抽象，不要依赖具体类。</li>
+</ol>
+<p>不能让高层组件依赖底层组件，而且，不管是高层或低层，两者都应该依赖于抽象。</p>
+<h2>指导方针</h2>
+<p>变量不可以持有具体类的引用（如果使用new，可以改用工厂来避开这样做法）；</p>
+<p>不要让类派生自具体类（派生自一个接口或者抽象类）；</p>
+<p>不要覆盖基类中已实现的方法（积累中已经实现的方法，应该有所有子类共享）</p>
+<h2>要点</h2>
+<p>所有的工厂都是用来封装对象的创建的。</p>
+<p>工厂方法使用继承：把对象的创建委托给子类，子类实现工厂方法来创建对象。</p>
+<p>抽象工厂使用对象组合：对象的创建被实现在工厂接口所暴露的方法中 ...</p> <a class="btn btn-info xsmall" href="../pages/2014/05/29/head_first_factory.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="../pages/2014/05/28/head_first_observer_decorator.html"><h2>《Head First 设计模式》学习笔记——观察者模式 + 装饰者模式</h2></a>
+        <div class= "well small"> 2014-05-28
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>装饰者模式是JDK中另一个使用较多的设计模式，上一个是观察者模式（在Swing中大量使用），业内好的API设计无一离不开常见的设计模式，通常我们所说要阅读源码，也是为了学习大牛们的设计思路。</p>
+<h2>设计模式</h2>
+<p><strong>观察者模式</strong>：定义了对象之间一对多的依赖，这样一来，当一个对象改变状态时，它的所有依赖者都会受到通知并自动更新。</p>
+<p><strong>装饰者模式</strong>：动态地将责任附加到对象上。若要扩展功能，装饰者提供比继承者更有弹性的替代方案。</p>
+<h2>设计原则</h2>
+<ol>
+<li>封装变化。</li>
+<li>多用组合，少用继承。</li>
+<li>针对接口编程，而不是针对实现编程。</li>
+<li>为了交互对象之间的松耦合设计努力。
+对象之间的像话依赖降到了最低，有助于简历有弹性的OO系统，能够应对变化。</li>
+<li>类应该对扩展开发，对修改关闭。
+目标是允许类容易扩展，在不修改现有代码的情况下，就可以搭配出新的行为。</li>
+</ol>
+<h2>要点</h2>
+<p>观察者模式定义了对象之间一对多的关系。</p>
+<p>使用观察者模式时，可以从被观察者出推或拉数据。</p>
+<p>观察者模式中，会改变的是主题的状态，以及观察者的数量和类型。用这个模式，你可以改变依赖于主题状态的对象，却不必改变主题。</p>
+<p>继承属于扩展形式之一，但不见得是达到弹性设计的最佳方式。</p>
+<p>组合和委托可用于运行时动态加上新的行为。</p>
+<p>装饰者可以在被装饰者的行为前面与或后面加上自己的行为，甚至取代，达到特有的目的。</p>
+<p>装饰者会导致设计中出现许多小对象，如果过度使用，会让小程序变得复杂 ...</p> <a class="btn btn-info xsmall" href="../pages/2014/05/28/head_first_observer_decorator.html">read more</a></div>
+    </div>	
+				
+<div class="pagination">
+<ul>
+    <li class="prev"><a href="../tag/she-ji-mo-shi.html">&larr; Previous</a></li>
+
+    <li class=""><a href="../tag/she-ji-mo-shi.html">1</a></li>
+    <li class="active"><a href="../tag/she-ji-mo-shi2.html">2</a></li>
+    <li class=""><a href="../tag/she-ji-mo-shi3.html">3</a></li>
+
+    <li class="next"><a href="../tag/she-ji-mo-shi3.html">Next &rarr;</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="../archives.html">Archives</a>
+                <li><a href="../tags.html">Tags</a>
+                <li><a href="http://www.linuxyu.com/" rel="alternate">Atom feed</a></li>
+                <li><a href="http://www.linuxyu.com/feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="../category/life.html">Life</a></li>
+                <li><a href="../category/tech.html">Tech</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://74.125.20.33/">Google</a></li>
+                <li><a href="http://python.org/">Python</a></li>
+                <li><a href="http://docs.getpelican.com/">Pelican</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="https://github.com/sunjianhua1990s">Github</a></li>
+                <li><a href="http://blog.csdn.net/huaxi1902">CSDN</a></li>
+                <li><a href="">知乎</a></li>
+                <li><a href="">豆瓣</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="..">Build the World</a> &copy; sunjianhua 2012</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
+<script>var _gaq=[['_setAccount','UA-52496177-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+<a href="https://github.com/sunjianhua1990s"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
+ 
+</body>
+</html>

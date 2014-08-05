@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+    <meta charset="utf-8">
+    <title>Build the World</title>
+    <meta name="description" content="">
+    <meta name="author" content="sunjianhua">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../../../../theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../../../../theme/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="../../../../theme/local.css" rel="stylesheet">
+    <link href="../../../../theme/pygments.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="../../../..">Build the World</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+            <li><a href="../../../../pages/about.html">About</a></li>
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class='article'>
+        <div class="content-title">
+            <h1>编程之美初赛第二场 集合</h1>
+2014-05-23
+
+by <a class="url fn" href="../../../../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+        </div>
+	
+        <div><h1>题目3 : 集合</h1>
+<p>时间限制:12000ms</p>
+<p>单点时限:6000ms</p>
+<p>内存限制:256MB</p>
+<h1>描述</h1>
+<p>统计满足下列条件的集合对(A, B)的数量：</p>
+<ul>
+<li>
+<p>A,B都是{1, 2, …, N}的子集；</p>
+</li>
+<li>
+<p>A,B没有公共的元素；</p>
+</li>
+<li>
+<p>f(A)&lt;= f(B)。f(S)定义为S中所有元素的按位异或和。例如， f({}) = 0, f({1, 3}) = 2。</p>
+</li>
+</ul>
+<blockquote>
+<p>因为答案可能很大，你只需要求出它除以M的余数。</p>
+</blockquote>
+<h1>输入</h1>
+<p>第一行一个整数T (1 ≤ T ≤ 10)，表示数据组数。</p>
+<p>接下来是T组输入数据，测试数据之间没有空行。</p>
+<p>每组数据格式如下：</p>
+<p>仅一行，2个整数N和M (1 ≤ M ≤ 108)。</p>
+<h1>输出</h1>
+<p>对每组数据，先输出“Case x: ”，然后接一个整数，表示所求的结果。</p>
+<h1>数据范围</h1>
+<p>小数据：1 ≤ N ≤ 20</p>
+<p>大数据：1 ≤ N &lt; 2^12</p>
+<h1>样例输入</h1>
+<div class="highlight"><pre><span class="mi">1</span>
+<span class="mi">3</span> <span class="mi">100000000</span>
+</pre></div>
+
+
+<h1>样例输出</h1>
+<div class="highlight"><pre><span class="n">Case</span> <span class="mi">1</span><span class="o">:</span> <span class="mi">18</span>
+</pre></div>
+
+
+<p>这题最开始想到的方法是位运算，每位代表一个数，对于n个数，就有2^n个集合，当<code>i&amp;j==0</code>时说明没有交集，然后进行f函数比较。这样做时间消耗还是很多，N==16时就已经满足不了要求了。。。。</p>
+<div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cp">#define LONG unsigned long long</span>
+
+<span class="kt">int</span> <span class="nf">f</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">int</span> <span class="n">total</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">total</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">n</span><span class="o">&amp;</span><span class="n">i</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">r</span><span class="o">^=</span><span class="n">j</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">//printf(&quot;f %d--%d\n&quot;,n,r);</span>
+    <span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">LONG</span> <span class="nf">mypow</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="n">LONG</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">res</span> <span class="o">*=</span> <span class="n">a</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">T</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">M</span><span class="p">;</span>
+
+    <span class="n">LONG</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="n">upper</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">T</span><span class="p">);</span>
+    <span class="n">getchar</span><span class="p">();</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="n">num</span><span class="o">&lt;</span><span class="n">T</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d %d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">N</span><span class="p">,</span><span class="o">&amp;</span><span class="n">M</span><span class="p">);</span>
+
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">upper</span> <span class="o">=</span> <span class="n">mypow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+        <span class="c1">//printf(&quot;upper:%ld\n&quot;,upper);</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">upper</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">upper</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">i</span><span class="o">&amp;</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="o">!=</span> <span class="n">f</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
+                        <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+                    <span class="k">else</span>
+                        <span class="n">count</span><span class="o">+=</span><span class="mi">2</span><span class="p">;</span>
+
+                    <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;=</span> <span class="n">M</span><span class="p">)</span>
+                    <span class="p">{</span>
+                        <span class="n">count</span> <span class="o">-=</span> <span class="n">M</span><span class="p">;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Case %d: count:%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">++</span><span class="n">num</span><span class="p">,</span><span class="n">count</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>尝试改进，使用动态规划，数学推算出了<code>dp(n)=dp(n-1)+3^(n-1)+count(n)</code>，其中<code>count(n)</code>为取n这个数字时，n与所有{1..n-1}的子集组合进行比较，相等的个数。这里面<code>count(2^k）</code>会为0，这样再使用迭代，程序运行的会更加快点，但还是卡在N=17上超时了。。</p>
+<p>这里是没有使用openmp多线程的情况下，也没有使用分布式多线程来做。在数据结构上使用的是unsigned long long，这已经是C语言能表达的最大位数了，但是对N=2^20时，构成的排列2^N时，已经放不下了。。。这个不知怎么解决。。。</p>
+<div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cp">#define LONG unsigned long long</span>
+
+<span class="n">LONG</span> <span class="nf">f</span><span class="p">(</span><span class="n">LONG</span> <span class="n">n</span><span class="p">,</span><span class="n">LONG</span> <span class="n">total</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">LONG</span> <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">total</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">n</span><span class="o">&amp;</span><span class="n">i</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">r</span><span class="o">^=</span><span class="n">j</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">//printf(&quot;f %lld--%lld\n&quot;,n,r);</span>
+    <span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">LONG</span> <span class="nf">muti_mod</span><span class="p">(</span><span class="n">LONG</span> <span class="n">a</span><span class="p">,</span><span class="n">LONG</span> <span class="n">b</span><span class="p">,</span><span class="n">LONG</span> <span class="n">MOD</span><span class="p">)</span><span class="c1">//(a*b)mod MOD</span>
+<span class="p">{</span>
+    <span class="n">a</span><span class="o">%=</span><span class="n">MOD</span><span class="p">;</span>
+    <span class="n">b</span><span class="o">%=</span><span class="n">MOD</span><span class="p">;</span>
+
+    <span class="n">LONG</span> <span class="n">ret</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="c1">//fast mul</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">b</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="c1">//a*b=a+a(b-1)</span>
+        <span class="p">{</span>
+            <span class="n">ret</span><span class="o">+=</span><span class="n">a</span><span class="p">;</span><span class="c1">//ret = (ret + a)%c</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="o">&gt;=</span><span class="n">MOD</span><span class="p">)</span>
+                <span class="n">ret</span><span class="o">-=</span><span class="n">MOD</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">//a*b=a*2 *b/2</span>
+        <span class="n">b</span><span class="o">&gt;&gt;=</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">a</span><span class="o">&lt;&lt;=</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="o">&gt;=</span><span class="n">MOD</span><span class="p">)</span>
+            <span class="n">a</span><span class="o">-=</span><span class="n">MOD</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">LONG</span> <span class="nf">mypow</span><span class="p">(</span><span class="n">LONG</span> <span class="n">a</span><span class="p">,</span> <span class="n">LONG</span> <span class="n">n</span><span class="p">,</span><span class="kt">int</span> <span class="n">flag</span><span class="p">,</span> <span class="n">LONG</span> <span class="n">mod</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">LONG</span> <span class="n">i</span><span class="p">;</span>
+    <span class="n">LONG</span> <span class="n">res</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">flag</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">res</span><span class="o">=</span><span class="n">res</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">res</span><span class="o">=</span><span class="n">muti_mod</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">mod</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">LONG</span> <span class="nf">jihe</span><span class="p">(</span><span class="n">LONG</span> <span class="n">n</span><span class="p">,</span> <span class="n">LONG</span> <span class="n">mod</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">LONG</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">upper</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">count</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">total</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span> <span class="n">k</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+        <span class="n">upper</span> <span class="o">=</span> <span class="n">mypow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">mod</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">((</span><span class="n">k</span><span class="o">&amp;</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span><span class="c1">//n=2^n,count=0</span>
+        <span class="p">{</span>
+            <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">upper</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">t</span><span class="o">=</span><span class="n">i</span><span class="o">|</span><span class="n">p</span><span class="p">;</span>
+                <span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">upper</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="k">if</span><span class="p">(((</span><span class="n">t</span><span class="o">&amp;</span><span class="n">j</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="o">==</span><span class="n">f</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)))</span>
+                        <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">//printf(&quot;k:%lld\t count:%lld\n&quot;,k,count);</span>
+        <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// (a / b) % m = ( a % (m*b)) / b  </span>
+    <span class="n">total</span><span class="o">=</span><span class="p">(</span><span class="n">mypow</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">mod</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+    <span class="c1">//printf(&quot;total %lld\n&quot;,total);</span>
+    <span class="c1">//printf(&quot;count %lld\n&quot;,count);</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">total</span><span class="o">+</span><span class="n">count</span><span class="p">)</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span><span class="c1">//</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">T</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">M</span><span class="p">;</span>
+    <span class="n">LONG</span> <span class="n">count</span><span class="p">;</span>
+
+    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">T</span><span class="p">);</span>
+    <span class="n">getchar</span><span class="p">();</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="n">num</span><span class="o">&lt;</span><span class="n">T</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d %d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">N</span><span class="p">,</span><span class="o">&amp;</span><span class="n">M</span><span class="p">);</span>
+
+        <span class="n">count</span><span class="o">=</span><span class="n">jihe</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Case %d: count:%lld</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">++</span><span class="n">num</span><span class="p">,</span><span class="n">count</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>update:2014.08.05
+参考了<a href="http://blog.csdn.net/dreamer2020/article/details/27144051">高手</a>的算法思路，茅塞顿开，同样是动态规划，但我却死磕在细节里了。</p>
+<p><strong>分析：</strong>
+对于集合<code>U={1, 2, ......, N}</code>的任意一个划分{A,B}，肯定对应着一个划分{B,A}，两者至少有一个满足要求。如果f(A)<f(B)，则只有{A,B}满足。如果f(A)>f(B)，则{B,A}满足。如果f(A)=f(B)，则两个都满足。设所有子集组合{A,B}的数目为X，其中满足f(A)=f(B)的数目为Y，则满足要求的集合对数为<code>X/2+Y/2</code>.</p>
+<p>先考虑计算X，对于任意一个组合{A,B}, 集合U的所有元素均有三个去处即{A, B, 剩余其他元素}，所以总数目是3^N。对于这里的组合{A,B}是有顺序的，即{A,B}和{B,A}是两种方案。当{A,B}={B,A}时，即A=B，只能是A和B均为空。所以总的数目<code>X=(3^N-1)</code>，排除空集。</p>
+<p>然后计算Y的数目。对于{A,B}满足f(A)=f(B)，必有f(AUB)=0。反过来，对于有k个元素的集合R={r1,r2,...,rk}，如果f(R)=0，则将R划成两个集合的办法个数为2^k/2 = 2^(k-1)。所以，只需要找出所有满足f(R)=0的子集。下面采用动态规划来计算满足f(AUB)=0的方案数。</p>
+<p>定义dp[i][j]表示前i个数分配好的情形下，两个集合异或值为j的方案数。则满足f(A)=f(B)的方案数即为dp[N][0]。有状态转移方程如下：</p>
+<div class="highlight"><pre><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">^</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+</pre></div>
+
+
+<p>理解为，前面i+1个数，异或结果为j的方案数，可以分成两类：一是不选择i+1，即dp[i][j]。二是选择i+1，将i+1加入到异或结果为 j^(i+1) 的两个集合中任意一个，都会得到一个新方案，异或结果为j.</p>
+<p>初始状态：dp[0][0]=1，即两个均为空集的方案。dp[0][j]=0, j &gt; 0。</p>
+<p>dp[N][0]的结果中，{A,B}和{B,A}会被计算成两种，但空集方案仅一种，即dp[0][0]=1。排除空集方案，<code>Y=dp[N][0]-1</code>。所以，总的方案数<code>NUM=X/2+Y/2+1(空集)=(3^N+dp[N][0])/2</code>。</p>
+<p>在N较大的情况下，NUM要对M求余。求余必须渗透于计算过程中的每一步，即3^N和dp[N][0]的计算过程。有一个小麻烦，就是除以2如何处理。</p>
+<p>先证明除以2的等价计算方法。假设现在要求x/2对M的余数，首先计算x对2M的余数，不妨设为r，令x=2Mk+r(k是整数)。于是x/2=Mk+r/2。x/2对M的余数就是r/2，且不论x的奇偶性。</p>
+<p>延伸一下，对于只含有对2^n做除法的式子且最终结果对m取模，我们可以通过对m * 2^n取模，最后直接除以2^n即可。</p>
+<p>所以，该问题简化为，在计算3^N+dp[N][0]的过程中，对2M求余。最后余数除以2即得NUM对M的余数，可以记为<code>(3^N+dp[N][0])%(2M)/2</code>。</p></div>
+	
+        <hr>
+
+        <h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'sunjianhua1990s'; 
+    var disqus_title = '编程之美初赛第二场 集合';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="../../../../archives.html">Archives</a>
+                <li><a href="../../../../tags.html">Tags</a>
+                <li><a href="http://www.linuxyu.com/" rel="alternate">Atom feed</a></li>
+                <li><a href="http://www.linuxyu.com/feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="../../../../category/life.html">Life</a></li>
+                <li><a href="../../../../category/tech.html">Tech</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://74.125.20.33/">Google</a></li>
+                <li><a href="http://python.org/">Python</a></li>
+                <li><a href="http://docs.getpelican.com/">Pelican</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="https://github.com/sunjianhua1990s">Github</a></li>
+                <li><a href="http://blog.csdn.net/huaxi1902">CSDN</a></li>
+                <li><a href="">知乎</a></li>
+                <li><a href="">豆瓣</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="../../../..">Build the World</a> &copy; sunjianhua 2012</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
+<script>var _gaq=[['_setAccount','UA-52496177-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+<a href="https://github.com/sunjianhua1990s"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
+ 
+</body>
+</html>

@@ -358,13 +358,134 @@ by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
         <hr />
     </div>
 		
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="../pages/2014/06/14/hacker_delifht.html"><h2>《算法心得》一点整理</h2></a>
+        <div class= "well small"> 2014-06-14
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>最近在图书馆看到本神书《算法心得：高效算法的奥秘》，主要讲解计算机算法的，强调编译器优化和计算机体系结构设计的。虽然看的不大懂，但还是给自己增长了见识和知识。少许整理些自己感兴趣的算法，以备后续温故知新。</p>
+<h2>1. 操作最右边的位元</h2>
+<p>a. 将字组中值为1且最靠右的位元置0，如果不存在值为1的位元，则全部结果为0（例如 0101 1110 =&gt; 0101 1100）：</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>这个操作可以判断无符号证书是不是2的幂或者0.</p>
+<p>b. 将字组中值为0且最靠右的位元置1，如果不存在值为0的位元，则全部结果的每一位为1（例如 1010 0111 =&gt; 1010 1111）：</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">|</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>这个操作可以判断无符号证书是不是2的幂或者0.</p>
+<p>c. 将字组尾部的1全部变成0，如果尾部没有1，则不变（例如 1010 0111 =&gt; 1010 0000）</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>这个操作可以判断无符号证书是不是2 ...</p> <a class="btn btn-info xsmall" href="../pages/2014/06/14/hacker_delifht.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="../pages/2014/06/08/head_first_proxy.html"><h2>《Head First 设计模式》学习笔记——代理模式</h2></a>
+        <div class= "well small"> 2014-06-08
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><h2>设计模式</h2>
+<p><strong>代理模式</strong>：为另一个对象提供一个替身或占位符以控制对这个对象的访问。
+使用代理模式创建代表对象，让代表对象控制某对象的访问，被代理的对象可以使远程的对象（远程代理）、创建开销大的对象（虚拟代理），或需要安全控制的对象（保护代理）。</p>
+<p><strong>远程代理</strong>：可以作为另一个JVM上对象的本地代表。调用代理的方法，会被代理利用网络转发到远程执行，并且结果会通过网络返回给代理，再由代理将结果返回给客户。</p>
+<p><strong>虚拟代理</strong>：作为创建开销大的对象的代表。虚拟代理经常直到我们真正需要一个对象的时候才创建它。当对象在创建前和创建中时，由虚拟代理来扮演对象的替身。对象创建后代理就会将请求直接委托给对象。</p>
+<p><strong>动态代理</strong>：java在java.lang.reflect包中有自己的代理支持，利用这个包你可以在运行时动态的创建一个代理类，实现一个或多个接口，并将方法的调用转发到你所指定的类。实际的代理类是在运行时创建的，在Java中我们称这种技术为动态代理。利用Java的动态代理，可以实现保护代理。</p>
+<p><strong>防火墙代理</strong>：控制网络资源的访问，保护主题免于“坏客户”的侵害。</p>
+<p><strong>智能引用代理</strong>：当主题被引用时，进行额外的动作，例如计算一个对象被引用的次数。</p>
+<p><strong>缓存代理</strong>：为开销大的运算结果提供暂时存储，它也运行多个客户共享结果，以减少计算或网络延迟。</p>
+<p><strong>同步代理</strong>：多线程的情况下为主题提供安全的访问。</p>
+<p><strong>复杂隐藏代理 ...</strong></p> <a class="btn btn-info xsmall" href="../pages/2014/06/08/head_first_proxy.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="../pages/2014/06/07/head_first_mvc.html"><h2>《Head First 设计模式》学习笔记——复合模式</h2></a>
+        <div class= "well small"> 2014-06-07
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>模型-视图-控制器（MVC模式）是一种非常经典的软件架构模式，在UI框架和UI设计思路中扮演着非常重要的角色。从设计模式的角度来看，MVC模式是一种复合模式，它将多个设计模式在一种解决方案中结合起来，用来解决许多设计问题。MVC模式把用户界面交互分拆到不同的三种角色中，使应用程序被分成三个核心部件：Model（模型）、View（视图）、Control（控制器）。</p>
+<h2>设计模式</h2>
+<p>复合模式：结合两个或以上的模式，组成一个解决方案，解决一再发生的一般性问题。如MVC和Model 2</p>
+<h2>模型-视图-控制器</h2>
+<p><strong>模型</strong>：模型持有所有的数据、状态和程序逻辑，模型没有注意到视图和控制器，虽然他提供了操纵和检索状态的接口，并发送状态改变给观察者。</p>
+<p><strong>控制器</strong>：取得用户的输入并解读其对模型的意思。</p>
+<p><strong>视图</strong>：用来呈现模型，视图通常直接从模型中取得它需要显示的状态和数据。
+从模式角度看：</p>
+<p>模型利用“<strong>观察者</strong>”让控制器和视图可以随最新的状态改变而更新。</p>
+<p>另一方面，视图和控制器则实现了“<strong>策略模式</strong>”。控制器是视图的行为，如果你希望有不同的行为，可以直接换一个控制器。</p>
+<p>视图内部使用组合模式管理窗口、按钮以及其他显示组件。</p>
+<h2>MVC与WEB——Model 2 ...</h2> <a class="btn btn-info xsmall" href="../pages/2014/06/07/head_first_mvc.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="../pages/2014/06/03/alphabet_order.html"><h2>字典序全排列简单研究</h2></a>
+        <div class= "well small"> 2014-06-03
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>最近看《算法设计与分析基础》这本书，里面讲到了一个字典序全排列问题，书中的方法是：</p>
+<p>（1）从右至左扫描当前的一个排列，需找第一个连续的选择ai和ai+1，使得ai&lt;ai+1。</p>
+<p>（2）在尾部存在大于ai的最小数也就是<code>min{aj | aj&gt;ai, j&gt;i}</code>，并将它放置在i位置上。</p>
+<p>（3）从i+1到n的位置，以元素ai,ai+1,....an.的增序进行填充，其中放在位置i上的元素已经消去。</p>
+<p>这个方法也就是字典序非递归法，更简单的描述是：</p>
+<div class="highlight"><pre> <span class="err">一般而言，设</span><span class="n">P</span><span class="err">是</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">]</span><span class="err">的一个全排列。</span>
+  <span class="n">P</span><span class="o">=</span><span class="n">P1P2</span><span class="err">…</span><span class="n">Pn</span><span class="o">=</span><span class="n">P1P2</span><span class="err">…</span><span class="n">Pj</span><span class="o">-</span><span class="mi">1</span><span class="n">PjPj</span><span class="o">+</span><span class="mi">1</span><span class="err">…</span><span class="n">Pk</span><span class="o">-</span><span class="mi">1</span><span class="n">PkPk ...</span></pre></div> <a class="btn btn-info xsmall" href="../pages/2014/06/03/alphabet_order.html">read more</a></div>
+    </div>	
+				
 <div class="pagination">
 <ul>
     <li class="prev disabled"><a href="#">&larr; Previous</a></li>
 
     <li class="active"><a href="../category/tech.html">1</a></li>
+    <li class=""><a href="../category/tech2.html">2</a></li>
+    <li class=""><a href="../category/tech3.html">3</a></li>
+    <li class=""><a href="../category/tech4.html">4</a></li>
 
-    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+    <li class="next"><a href="../category/tech2.html">Next &rarr;</a></li>
 
 </ul>
 </div>
@@ -407,7 +528,7 @@ by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
                 Links
                 </li>
             
-                <li><a href="https://www.google.com/ncr">Google</a></li>
+                <li><a href="http://74.125.20.33/">Google</a></li>
                 <li><a href="http://python.org/">Python</a></li>
                 <li><a href="http://docs.getpelican.com/">Pelican</a></li>
             </ul>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+    <meta charset="utf-8">
+    <title>Build the World</title>
+    <meta name="description" content="">
+    <meta name="author" content="sunjianhua">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../../../../theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../../../../theme/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="../../../../theme/local.css" rel="stylesheet">
+    <link href="../../../../theme/pygments.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="../../../..">Build the World</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+            <li><a href="../../../../pages/about.html">About</a></li>
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class='article'>
+        <div class="content-title">
+            <h1>《Head First 设计模式》学习笔记——复合模式</h1>
+2014-06-07
+
+by <a class="url fn" href="../../../../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+        </div>
+	
+        <div><p>模型-视图-控制器（MVC模式）是一种非常经典的软件架构模式，在UI框架和UI设计思路中扮演着非常重要的角色。从设计模式的角度来看，MVC模式是一种复合模式，它将多个设计模式在一种解决方案中结合起来，用来解决许多设计问题。MVC模式把用户界面交互分拆到不同的三种角色中，使应用程序被分成三个核心部件：Model（模型）、View（视图）、Control（控制器）。</p>
+<h2>设计模式</h2>
+<p>复合模式：结合两个或以上的模式，组成一个解决方案，解决一再发生的一般性问题。如MVC和Model 2</p>
+<h2>模型-视图-控制器</h2>
+<p><strong>模型</strong>：模型持有所有的数据、状态和程序逻辑，模型没有注意到视图和控制器，虽然他提供了操纵和检索状态的接口，并发送状态改变给观察者。</p>
+<p><strong>控制器</strong>：取得用户的输入并解读其对模型的意思。</p>
+<p><strong>视图</strong>：用来呈现模型，视图通常直接从模型中取得它需要显示的状态和数据。
+从模式角度看：</p>
+<p>模型利用“<strong>观察者</strong>”让控制器和视图可以随最新的状态改变而更新。</p>
+<p>另一方面，视图和控制器则实现了“<strong>策略模式</strong>”。控制器是视图的行为，如果你希望有不同的行为，可以直接换一个控制器。</p>
+<p>视图内部使用组合模式管理窗口、按钮以及其他显示组件。</p>
+<h2>MVC与WEB——Model 2</h2>
+<p>Web开发人员也都在适配MVC，使他符合浏览器/服务器模型。使用Servlet和JSP技术的组合，达到MVC的分离效果，就像传统的GUI.</p>
+<p>（1）客户发出一个会被Servlet收到的HTTP请求。</p>
+<p>（2）Servlet扮演控制器，处理请求，通常会向模型（一般是数据库）发出请求。处理结果往往以JavaBean的形式打包。</p>
+<p>（3）控制器将控制权交给视图JSP。JSP的唯一工作就是产生页面表现模型的视图，以及进一步动作所需要的所有控件。</p>
+<p>（4）视图通过HTTP将页面返回浏览器。</p>
+<div class="highlight"><pre><span class="c1">//MVC</span>
+<span class="c1">//模型</span>
+<span class="n">public</span> <span class="k">interface</span> <span class="n">BeatModelInterface</span> <span class="p">{</span>
+    <span class="c1">//这些方法让控制器调用。控制器根据用户的操作对模型做出适当的处理</span>
+    <span class="k">void</span> <span class="n">initialize</span><span class="p">();</span>
+    <span class="k">void</span> <span class="n">on</span><span class="p">();</span>
+    <span class="k">void</span> <span class="n">off</span><span class="p">();</span>
+    <span class="k">void</span> <span class="n">setBPM</span><span class="p">(</span><span class="k">int</span> <span class="n">bpm</span><span class="p">);</span>
+
+    <span class="c1">//这些方法允许视图和控制器取得状态，并且成为观察者。</span>
+    <span class="k">int</span> <span class="n">getBPM</span><span class="p">();</span>
+    <span class="k">void</span> <span class="n">registerObserver</span><span class="p">(</span><span class="n">BeatObserver</span> <span class="n">o</span><span class="p">);</span>
+    <span class="k">void</span> <span class="n">removeObserver</span><span class="p">(</span><span class="n">BeatObserver</span> <span class="n">o</span><span class="p">);</span>
+    <span class="k">void</span> <span class="n">registerObserver</span><span class="p">(</span><span class="n">BPMObserver</span> <span class="n">o</span><span class="p">);</span>
+    <span class="k">void</span> <span class="n">removeObserver</span><span class="p">(</span><span class="n">BPMObserver</span> <span class="n">o</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="k">class</span> <span class="n">BeatModel</span> <span class="n">implements</span> <span class="n">BeatModelInterface</span><span class="p">,</span> <span class="n">MetaEventListener</span> <span class="p">{</span>
+    <span class="n">Sequencer</span> <span class="n">sequencer</span><span class="p">;</span>
+    <span class="c1">//两种观察者，一种观察节拍，一种观察BPM变化</span>
+    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">BeatObserver</span><span class="o">&gt;</span> <span class="n">beatObservers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">BeatObserver</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">BPMObserver</span><span class="o">&gt;</span> <span class="n">bpmObservers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">BPMObserver</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="k">int</span> <span class="n">bpm</span> <span class="o">=</span> <span class="mh">90</span><span class="p">;</span>
+    <span class="n">Sequence</span> <span class="k">sequence</span><span class="p">;</span>
+    <span class="n">Track</span> <span class="n">track</span><span class="p">;</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">initialize</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">setUpMidi</span><span class="p">();</span>
+        <span class="n">buildTrackAndStart</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">on</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">sequencer</span><span class="p">.</span><span class="n">start</span><span class="p">();</span>
+        <span class="n">setBPM</span><span class="p">(</span><span class="mh">90</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">off</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">setBPM</span><span class="p">(</span><span class="mh">0</span><span class="p">);</span>
+        <span class="n">sequencer</span><span class="p">.</span><span class="n">stop</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">setBPM</span><span class="p">(</span><span class="k">int</span> <span class="n">bpm</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">bpm</span> <span class="o">=</span> <span class="n">bpm</span><span class="p">;</span>
+        <span class="n">sequencer</span><span class="p">.</span><span class="n">setTempoInBPM</span><span class="p">(</span><span class="n">getBPM</span><span class="p">());</span>
+        <span class="n">notifyBPMObservers</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">int</span> <span class="n">getBPM</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">bpm</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">void</span> <span class="n">beatEvent</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">notifyBeatObservers</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">//注册观察者、通知观察者的代码</span>
+
+    <span class="c1">//处理节拍的MIDI代码</span>
+<span class="p">}</span>
+
+<span class="c1">//视图</span>
+<span class="n">public</span> <span class="k">class</span> <span class="n">DJView</span> <span class="n">implements</span> <span class="n">ActionListener</span><span class="p">,</span> <span class="n">BeatObserver</span><span class="p">,</span> <span class="n">BPMObserver</span> <span class="p">{</span>
+    <span class="c1">//视图持有模型和控制器的引用</span>
+    <span class="n">BeatModelInterface</span> <span class="n">model</span><span class="p">;</span>
+    <span class="n">ControllerInterface</span> <span class="n">controller</span><span class="p">;</span>
+    <span class="c1">//显示控制按钮</span>
+    <span class="n">JFrame</span> <span class="n">viewFrame</span><span class="p">;</span>
+    <span class="n">JPanel</span> <span class="n">viewPanel</span><span class="p">;</span>
+    <span class="n">BeatBar</span> <span class="n">beatBar</span><span class="p">;</span>
+    <span class="n">JLabel</span> <span class="n">bpmOutputLabel</span><span class="p">;</span>
+    <span class="n">JFrame</span> <span class="n">controlFrame</span><span class="p">;</span>
+    <span class="n">JPanel</span> <span class="n">controlPanel</span><span class="p">;</span>
+    <span class="n">JLabel</span> <span class="n">bpmLabel</span><span class="p">;</span>
+    <span class="n">JTextField</span> <span class="n">bpmTextField</span><span class="p">;</span>
+    <span class="n">JButton</span> <span class="n">setBPMButton</span><span class="p">;</span>
+    <span class="n">JButton</span> <span class="n">increaseBPMButton</span><span class="p">;</span>
+    <span class="n">JButton</span> <span class="n">decreaseBPMButton</span><span class="p">;</span>
+    <span class="n">JMenuBar</span> <span class="n">menuBar</span><span class="p">;</span>
+    <span class="n">JMenu</span> <span class="n">menu</span><span class="p">;</span>
+    <span class="n">JMenuItem</span> <span class="n">startMenuItem</span><span class="p">;</span>
+    <span class="n">JMenuItem</span> <span class="n">stopMenuItem</span><span class="p">;</span>
+
+    <span class="n">public</span> <span class="n">DJView</span><span class="p">(</span><span class="n">ControllerInterface</span> <span class="n">controller</span><span class="p">,</span> <span class="n">BeatModelInterface</span> <span class="n">model</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">controller</span> <span class="o">=</span> <span class="n">controller</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">;</span>
+        <span class="n">model</span><span class="p">.</span><span class="n">registerObserver</span><span class="p">((</span><span class="n">BeatObserver</span><span class="p">)</span> <span class="k">this</span><span class="p">);</span>
+        <span class="n">model</span><span class="p">.</span><span class="n">registerObserver</span><span class="p">((</span><span class="n">BPMObserver</span><span class="p">)</span> <span class="k">this</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">createView</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Create all Swing components here</span>
+
+    <span class="p">}</span>
+
+    <span class="c1">//模型发生变化是，updateBPM()方法会被调用</span>
+    <span class="n">public</span> <span class="k">void</span> <span class="n">updateBPM</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">model</span> <span class="o">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">int</span> <span class="n">bpm</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">getBPM</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">bpm</span> <span class="o">==</span> <span class="mh">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">bpmOutputLabel</span> <span class="o">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">bpmOutputLabel</span><span class="p">.</span><span class="n">setText</span><span class="p">(</span><span class="s">&quot;offline&quot;</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">bpmOutputLabel</span> <span class="o">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">bpmOutputLabel</span><span class="p">.</span><span class="n">setText</span><span class="p">(</span><span class="s">&quot;Current BPM: &quot;</span> <span class="o">+</span> <span class="n">model</span><span class="p">.</span><span class="n">getBPM</span><span class="p">());</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">updateBeat</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">beatBar</span> <span class="o">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">beatBar</span><span class="p">.</span><span class="n">setValue</span><span class="p">(</span><span class="mh">100</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//控制器</span>
+<span class="n">public</span> <span class="k">interface</span> <span class="n">ControllerInterface</span> <span class="p">{</span>
+    <span class="c1">//视图能调用所有的控制器方法都在丽丽</span>
+    <span class="k">void</span> <span class="n">start</span><span class="p">();</span>
+    <span class="k">void</span> <span class="n">stop</span><span class="p">();</span>
+    <span class="k">void</span> <span class="n">increaseBPM</span><span class="p">();</span>
+    <span class="k">void</span> <span class="n">decreaseBPM</span><span class="p">();</span>
+    <span class="k">void</span> <span class="n">setBPM</span><span class="p">(</span><span class="k">int</span> <span class="n">bpm</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">//实现ControllerInterface接口</span>
+<span class="n">public</span> <span class="k">class</span> <span class="n">BeatController</span> <span class="n">implements</span> <span class="n">ControllerInterface</span> <span class="p">{</span>
+    <span class="n">BeatModelInterface</span> <span class="n">model</span><span class="p">;</span>
+    <span class="n">DJView</span> <span class="n">view</span><span class="p">;</span>
+
+    <span class="n">public</span> <span class="n">BeatController</span><span class="p">(</span><span class="n">BeatModelInterface</span> <span class="n">model</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">;</span>
+
+        <span class="c1">//把控制器当参数传入创建视图的构造器中</span>
+        <span class="n">view</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DJView</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">model</span><span class="p">);</span>
+        <span class="n">view</span><span class="p">.</span><span class="n">createView</span><span class="p">();</span>
+        <span class="n">view</span><span class="p">.</span><span class="n">createControls</span><span class="p">();</span>
+        <span class="n">view</span><span class="p">.</span><span class="n">disableStopMenuItem</span><span class="p">();</span>
+        <span class="n">view</span><span class="p">.</span><span class="n">enableStartMenuItem</span><span class="p">();</span>
+        <span class="n">model</span><span class="p">.</span><span class="n">initialize</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">start</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">model</span><span class="p">.</span><span class="n">on</span><span class="p">();</span>
+        <span class="n">view</span><span class="p">.</span><span class="n">disableStartMenuItem</span><span class="p">();</span>
+        <span class="n">view</span><span class="p">.</span><span class="n">enableStopMenuItem</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">stop</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">model</span><span class="p">.</span><span class="n">off</span><span class="p">();</span>
+        <span class="n">view</span><span class="p">.</span><span class="n">disableStopMenuItem</span><span class="p">();</span>
+        <span class="n">view</span><span class="p">.</span><span class="n">enableStartMenuItem</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">increaseBPM</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">int</span> <span class="n">bpm</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">getBPM</span><span class="p">();</span>
+        <span class="n">model</span><span class="p">.</span><span class="n">setBPM</span><span class="p">(</span><span class="n">bpm</span> <span class="o">+</span> <span class="mh">1</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">decreaseBPM</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">int</span> <span class="n">bpm</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">getBPM</span><span class="p">();</span>
+        <span class="n">model</span><span class="p">.</span><span class="n">setBPM</span><span class="p">(</span><span class="n">bpm</span> <span class="o">-</span> <span class="mh">1</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">void</span> <span class="n">setBPM</span><span class="p">(</span><span class="k">int</span> <span class="n">bpm</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">model</span><span class="p">.</span><span class="n">setBPM</span><span class="p">(</span><span class="n">bpm</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="k">class</span> <span class="n">DJTestDrive</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">BeatModelInterface</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BeatModel</span><span class="p">();</span>
+        <span class="c1">//由控制器创建视图</span>
+        <span class="n">ControllerInterface</span> <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BeatController</span><span class="p">(</span><span class="n">model</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div></div>
+	
+        <hr>
+
+        <h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'sunjianhua1990s'; 
+    var disqus_title = '《Head First 设计模式》学习笔记——复合模式';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="../../../../archives.html">Archives</a>
+                <li><a href="../../../../tags.html">Tags</a>
+                <li><a href="http://www.linuxyu.com/" rel="alternate">Atom feed</a></li>
+                <li><a href="http://www.linuxyu.com/feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="../../../../category/life.html">Life</a></li>
+                <li><a href="../../../../category/tech.html">Tech</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://74.125.20.33/">Google</a></li>
+                <li><a href="http://python.org/">Python</a></li>
+                <li><a href="http://docs.getpelican.com/">Pelican</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="https://github.com/sunjianhua1990s">Github</a></li>
+                <li><a href="http://blog.csdn.net/huaxi1902">CSDN</a></li>
+                <li><a href="">知乎</a></li>
+                <li><a href="">豆瓣</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="../../../..">Build the World</a> &copy; sunjianhua 2012</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
+<script>var _gaq=[['_setAccount','UA-52496177-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+<a href="https://github.com/sunjianhua1990s"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
+ 
+</body>
+</html>

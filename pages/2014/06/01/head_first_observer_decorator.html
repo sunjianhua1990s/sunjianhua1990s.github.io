@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+    <meta charset="utf-8">
+    <title>Build the World</title>
+    <meta name="description" content="">
+    <meta name="author" content="sunjianhua">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../../../../theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../../../../theme/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="../../../../theme/local.css" rel="stylesheet">
+    <link href="../../../../theme/pygments.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="../../../..">Build the World</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+            <li><a href="../../../../pages/about.html">About</a></li>
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class='article'>
+        <div class="content-title">
+            <h1>《Head First 设计模式》学习笔记——观察者模式 + 装饰者模式</h1>
+2014-06-01
+
+by <a class="url fn" href="../../../../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+        </div>
+	
+        <div><p>装饰者模式是JDK中另一个使用较多的设计模式，上一个是观察者模式（在Swing中大量使用），业内好的API设计无一离不开常见的设计模式，通常我们所说要阅读源码，也是为了学习大牛们的设计思路。</p>
+<h2>设计模式</h2>
+<p><strong>观察者模式</strong>：定义了对象之间一对多的依赖，这样一来，当一个对象改变状态时，它的所有依赖者都会受到通知并自动更新。</p>
+<p><strong>装饰者模式</strong>：动态地将责任附加到对象上。若要扩展功能，装饰者提供比继承者更有弹性的替代方案。</p>
+<h2>设计原则</h2>
+<ol>
+<li>封装变化。</li>
+<li>多用组合，少用继承。</li>
+<li>针对接口编程，而不是针对实现编程。</li>
+<li>为了交互对象之间的松耦合设计努力。
+对象之间的像话依赖降到了最低，有助于简历有弹性的OO系统，能够应对变化。</li>
+<li>类应该对扩展开发，对修改关闭。
+目标是允许类容易扩展，在不修改现有代码的情况下，就可以搭配出新的行为。</li>
+</ol>
+<h2>要点</h2>
+<p>观察者模式定义了对象之间一对多的关系。</p>
+<p>使用观察者模式时，可以从被观察者出推或拉数据。</p>
+<p>观察者模式中，会改变的是主题的状态，以及观察者的数量和类型。用这个模式，你可以改变依赖于主题状态的对象，却不必改变主题。</p>
+<p>继承属于扩展形式之一，但不见得是达到弹性设计的最佳方式。</p>
+<p>组合和委托可用于运行时动态加上新的行为。</p>
+<p>装饰者可以在被装饰者的行为前面与或后面加上自己的行为，甚至取代，达到特有的目的。</p>
+<p>装饰者会导致设计中出现许多小对象，如果过度使用，会让小程序变得复杂。</p>
+<h2>Java内置的观察者模式</h2>
+<p>Obverser接口与Obversable类, 缺点：</p>
+<ol>
+<li>Obversable是一个类，必须设计一个类继承他。如果想同时具有Obversable类和另一个超类的行为，就会陷入两难，因为Java不支持多重继承。Obversable没有接口，无法建立自己的实现。</li>
+<li>Obversable将setChange()方法保护起来了。这样一来，除非继承，否则无法创建Obversable实例并组合到自己的对象中来。</li>
+</ol>
+<h2>真实世界的装饰者</h2>
+<p>java.io包内的类太多了，简直是排山倒海。下面是一个典型的对象集合，用装饰者来将功能结合起来，以读取文件数据：</p>
+<p>超类：InputStream</p>
+<p>组件：FileInputStream、StringBufferInputStream、ByteArrayInputStream</p>
+<p>抽象装饰者：FilterInputStream</p>
+<p>具体装饰者：PushBackInputStream、BufferedInputStream、DataInputStream、LineNumberInputStream</p>
+<p>观察者模式：</p>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">interface</span> <span class="n">Subject</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="kt">void</span> <span class="n">registerObserver</span><span class="p">(</span><span class="n">Observer</span> <span class="n">o</span><span class="p">);</span>
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">removeObserver</span><span class="p">(</span><span class="n">Observer</span> <span class="n">o</span><span class="p">);</span>
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">notifyObservers</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">interface</span> <span class="n">Observer</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="kt">void</span> <span class="n">update</span><span class="p">(</span><span class="kt">float</span> <span class="n">temp</span><span class="p">,</span> <span class="kt">float</span> <span class="n">humidity</span><span class="p">,</span> <span class="kt">float</span> <span class="n">pressure</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">interface</span> <span class="n">DispalyElement</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="kt">void</span> <span class="n">dispaly</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">class</span> <span class="n">WeatherData</span> <span class="n">implements</span> <span class="n">Subject</span> <span class="p">{</span>
+    <span class="n">private</span> <span class="n">ArrayList</span> <span class="n">observers</span><span class="p">;</span>
+    <span class="n">private</span> <span class="kt">float</span> <span class="n">temperature</span><span class="p">;</span>
+    <span class="n">private</span> <span class="kt">float</span> <span class="n">humidity</span><span class="p">;</span>
+    <span class="n">private</span> <span class="kt">float</span> <span class="n">pressure</span><span class="p">;</span>
+
+    <span class="n">public</span> <span class="nf">WeatherData</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">observers</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">registerObserver</span><span class="p">(</span><span class="n">Observer</span> <span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">observers</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">o</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">removeObserver</span><span class="p">(</span><span class="n">Observer</span> <span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">observers</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">o</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">observers</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">//通知每一个观察者</span>
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">notifyObservers</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">observers</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Observer</span> <span class="n">observer</span> <span class="o">=</span> <span class="p">(</span><span class="n">Observer</span><span class="p">)</span><span class="n">observers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+            <span class="n">observer</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">humidity</span><span class="p">,</span> <span class="n">pressure</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">measurementsChanged</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">notifyObservers</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="kt">void</span> <span class="nf">setMeasurements</span><span class="p">(</span><span class="kt">float</span> <span class="n">temperature</span><span class="p">,</span> <span class="kt">float</span> <span class="n">humidity</span><span class="p">,</span> <span class="kt">float</span> <span class="n">pressure</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">this</span><span class="p">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="n">temperature</span><span class="p">;</span>
+        <span class="n">this</span><span class="p">.</span><span class="n">humidity</span> <span class="o">=</span> <span class="n">humidity</span><span class="p">;</span>
+        <span class="n">this</span><span class="p">.</span><span class="n">pressure</span> <span class="o">=</span> <span class="n">pressure</span><span class="p">;</span>
+        <span class="n">measurementsChanged</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="kt">float</span> <span class="nf">getTemperature</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">temperature</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="kt">float</span> <span class="nf">getHumidity</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">humidity</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="kt">float</span> <span class="nf">getPressure</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">pressure</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//测试代码</span>
+<span class="n">public</span> <span class="n">class</span> <span class="n">WeatherStation</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">WeatherData</span> <span class="n">weatherData</span> <span class="o">=</span> <span class="n">new</span> <span class="n">WeatherData</span><span class="p">();</span>
+
+        <span class="n">CurrentConditionsDisplay</span> <span class="n">currentDisplay</span> <span class="o">=</span>
+        <span class="n">new</span> <span class="n">CurrentConditionsDisplay</span><span class="p">(</span><span class="n">weatherData</span><span class="p">);</span>
+
+        <span class="n">weatherData</span><span class="p">.</span><span class="n">setMeasurements</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mf">30.4f</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2>装饰者模式</h2>
+<div class="highlight"><pre><span class="c1">//抽象类</span>
+<span class="n">public</span> <span class="n">abstract</span> <span class="k">class</span> <span class="n">Beverage</span> <span class="p">{</span>
+    <span class="n">String</span> <span class="n">description</span> <span class="o">=</span> <span class="s">&quot;Unknown Beverage&quot;</span><span class="p">;</span>
+
+    <span class="n">public</span> <span class="n">String</span> <span class="n">getDescription</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">description</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">abstract</span> <span class="n">double</span> <span class="n">cost</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">//CondimentDecorator必须能取代Beverage，所以将CondimentDecorator必须能取代Beverage，所以将扩展成Beverage类扩展成Beverage类</span>
+<span class="n">public</span> <span class="n">abstract</span> <span class="k">class</span> <span class="n">CondimentDecorator</span> <span class="k">extends</span> <span class="n">Beverage</span> <span class="p">{</span>
+    <span class="c1">//所有调料装饰者必须重新实现getDescription()方法</span>
+    <span class="n">public</span> <span class="n">abstract</span> <span class="n">String</span> <span class="n">getDescription</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">//饮料代码扩展自Beverage</span>
+<span class="n">public</span> <span class="k">class</span> <span class="n">Espresso</span> <span class="k">extends</span> <span class="n">Beverage</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="n">Espresso</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s">&quot;Espresso&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">double</span> <span class="n">cost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mf">1.99</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//装饰者</span>
+<span class="n">public</span> <span class="k">class</span> <span class="n">Soy</span> <span class="k">extends</span> <span class="n">CondimentDecorator</span> <span class="p">{</span>
+    <span class="n">Beverage</span> <span class="n">beverage</span><span class="p">;</span><span class="c1">//记录被装饰者</span>
+
+    <span class="n">public</span> <span class="n">Soy</span><span class="p">(</span><span class="n">Beverage</span> <span class="n">beverage</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">beverage</span> <span class="o">=</span> <span class="n">beverage</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">String</span> <span class="n">getDescription</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">beverage</span><span class="p">.</span><span class="n">getDescription</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;, Soy&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">double</span> <span class="n">cost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mf">.15</span> <span class="o">+</span> <span class="n">beverage</span><span class="p">.</span><span class="n">cost</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//测试代码</span>
+<span class="n">public</span> <span class="k">class</span> <span class="n">StarbuzzCoffee</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span> <span class="n">args</span><span class="p">[])</span> <span class="p">{</span>
+        <span class="n">Beverage</span> <span class="n">beverage</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Espresso</span><span class="p">();</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">beverage</span><span class="p">.</span><span class="n">getDescription</span><span class="p">()</span> 
+                <span class="o">+</span> <span class="s">&quot; $&quot;</span> <span class="o">+</span> <span class="n">beverage</span><span class="p">.</span><span class="n">cost</span><span class="p">());</span>
+
+        <span class="n">Beverage</span> <span class="n">beverage2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DarkRoast</span><span class="p">();</span>
+        <span class="n">beverage2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Mocha</span><span class="p">(</span><span class="n">beverage2</span><span class="p">);</span><span class="c1">//层层装饰</span>
+        <span class="n">beverage2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Mocha</span><span class="p">(</span><span class="n">beverage2</span><span class="p">);</span>
+        <span class="n">beverage2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Whip</span><span class="p">(</span><span class="n">beverage2</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">beverage2</span><span class="p">.</span><span class="n">getDescription</span><span class="p">()</span> 
+                <span class="o">+</span> <span class="s">&quot; $&quot;</span> <span class="o">+</span> <span class="n">beverage2</span><span class="p">.</span><span class="n">cost</span><span class="p">());</span>
+
+        <span class="n">Beverage</span> <span class="n">beverage3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HouseBlend</span><span class="p">();</span>
+        <span class="n">beverage3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Soy</span><span class="p">(</span><span class="n">beverage3</span><span class="p">);</span>
+        <span class="n">beverage3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Mocha</span><span class="p">(</span><span class="n">beverage3</span><span class="p">);</span>
+        <span class="n">beverage3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Whip</span><span class="p">(</span><span class="n">beverage3</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">beverage3</span><span class="p">.</span><span class="n">getDescription</span><span class="p">()</span> 
+                <span class="o">+</span> <span class="s">&quot; $&quot;</span> <span class="o">+</span> <span class="n">beverage3</span><span class="p">.</span><span class="n">cost</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div></div>
+	
+        <hr>
+
+        <h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'sunjianhua1990s'; 
+    var disqus_title = '《Head First 设计模式》学习笔记——观察者模式 + 装饰者模式';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="../../../../archives.html">Archives</a>
+                <li><a href="../../../../tags.html">Tags</a>
+                <li><a href="http://www.linuxyu.com/" rel="alternate">Atom feed</a></li>
+                <li><a href="http://www.linuxyu.com/feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="../../../../category/life.html">Life</a></li>
+                <li><a href="../../../../category/tech.html">Tech</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://74.125.20.33/">Google</a></li>
+                <li><a href="http://python.org/">Python</a></li>
+                <li><a href="http://docs.getpelican.com/">Pelican</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="https://github.com/sunjianhua1990s">Github</a></li>
+                <li><a href="http://blog.csdn.net/huaxi1902">CSDN</a></li>
+                <li><a href="">知乎</a></li>
+                <li><a href="">豆瓣</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="../../../..">Build the World</a> &copy; sunjianhua 2012</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
+<script>var _gaq=[['_setAccount','UA-52496177-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+<a href="https://github.com/sunjianhua1990s"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
+ 
+</body>
+</html>

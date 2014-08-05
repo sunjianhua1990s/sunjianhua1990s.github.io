@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+    <meta charset="utf-8">
+    <title>Build the World</title>
+    <meta name="description" content="">
+    <meta name="author" content="sunjianhua">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../theme/bootstrap.min.css" rel="stylesheet">
+    <link href="../theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="../theme/local.css" rel="stylesheet">
+    <link href="../theme/pygments.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="..">Build the World</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+            <li><a href="../pages/about.html">About</a></li>
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+
+    <div class='article'>
+        <div class="content-title">
+            <a href="../pages/2014/05/29/head_first_factory.html"><h1>《Head First 设计模式》学习笔记——工厂模式 + 抽象工厂模式</h1></a>
+2014-05-29
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ 
+        </div>
+        
+        <div><h2>设计模式</h2>
+<p><strong>工厂模式</strong>：定义一个创建对象的接口，但由子类决定要实例化的是哪一个。工厂方法让类把实例化推迟到子类。</p>
+<p>所谓的“决定”，并不是指模式允许子类本身在运行时做决定，而是指在编写创建者类时，不需要知道实际创建的产品是哪一个。选择了使用这个子类，就自然的决定了实际创建的产品是什么。</p>
+<p><strong>抽象工厂模式</strong>：提供一个接口，用于创建相关或依赖对象的家族，而不需要指定具体类。</p>
+<p>抽象工厂的任务时定义一个负责创建一组产品的接口。这个接口内的每个产品都负责创建一个具体产品，使用工厂方法。</p>
+<h2>设计原则</h2>
+<ol>
+<li>多用组合，少用继承</li>
+<li>针对接口编程，不针对实现编程</li>
+<li>为交互对象之间的松耦合设计而努力</li>
+<li>类应该对扩展开放，对修改关闭</li>
+<li>依赖倒用原则：要依赖抽象，不要依赖具体类。</li>
+</ol>
+<p>不能让高层组件依赖底层组件，而且，不管是高层或低层，两者都应该依赖于抽象。</p>
+<h2>指导方针</h2>
+<p>变量不可以持有具体类的引用（如果使用new，可以改用工厂来避开这样做法）；</p>
+<p>不要让类派生自具体类（派生自一个接口或者抽象类）；</p>
+<p>不要覆盖基类中已实现的方法（积累中已经实现的方法，应该有所有子类共享）</p>
+<h2>要点</h2>
+<p>所有的工厂都是用来封装对象的创建的。</p>
+<p>工厂方法使用继承：把对象的创建委托给子类，子类实现工厂方法来创建对象。</p>
+<p>抽象工厂使用对象组合：对象的创建被实现在工厂接口所暴露的方法中。</p>
+<p>工厂方法允许将实例化延迟到子类进行。</p>
+<h2>工厂模式</h2>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">abstract</span> <span class="n">class</span> <span class="n">Pizza</span> <span class="p">{</span>
+    <span class="n">String</span> <span class="n">name</span><span class="p">;</span>
+    <span class="n">String</span> <span class="n">dough</span><span class="p">;</span>
+    <span class="n">String</span> <span class="n">sauce</span><span class="p">;</span>
+    <span class="n">ArrayList</span> <span class="n">toppings</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="p">();</span>
+
+    <span class="kt">void</span> <span class="nf">prepare</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Preparing &quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Tossing dough...&quot;</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Adding sauce...&quot;</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Adding toppings: &quot;</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">toppings</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;   &quot;</span> <span class="o">+</span> <span class="n">toppings</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">bake</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Bake for 25 minutes at 350&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">cut</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Cutting the pizza into diagonal slices&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">box</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Place pizza in official PizzaStore box&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">StringBuffer</span> <span class="n">display</span> <span class="o">=</span> <span class="n">new</span> <span class="n">StringBuffer</span><span class="p">();</span>
+        <span class="n">display</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;---- &quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&quot; ----</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="n">display</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">dough</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="n">display</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">sauce</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">toppings</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">display</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="n">String</span> <span class="p">)</span><span class="n">toppings</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">display</span><span class="p">.</span><span class="n">toString</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">class</span> <span class="n">NYStyleCheesePizza</span> <span class="n">extends</span> <span class="n">Pizza</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="n">NYStyleCheesePizza</span><span class="p">()</span> <span class="p">{</span> 
+        <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;NY Style Sauce and Cheese Pizza&quot;</span><span class="p">;</span>
+        <span class="n">dough</span> <span class="o">=</span> <span class="s">&quot;Thin Crust Dough&quot;</span><span class="p">;</span>
+        <span class="n">sauce</span> <span class="o">=</span> <span class="s">&quot;Marinara Sauce&quot;</span><span class="p">;</span>
+
+        <span class="n">toppings</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Grated Reggiano Cheese&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">abstract</span> <span class="n">class</span> <span class="n">PizzaStore</span> <span class="p">{</span>
+
+    <span class="n">abstract</span> <span class="n">Pizza</span> <span class="n">createPizza</span><span class="p">(</span><span class="n">String</span> <span class="n">item</span><span class="p">);</span>
+
+    <span class="n">public</span> <span class="n">Pizza</span> <span class="nf">orderPizza</span><span class="p">(</span><span class="n">String</span> <span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//创建对象的接口</span>
+        <span class="n">Pizza</span> <span class="n">pizza</span> <span class="o">=</span> <span class="n">createPizza</span><span class="p">(</span><span class="n">type</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;--- Making a &quot;</span> <span class="o">+</span> <span class="n">pizza</span><span class="p">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot; ---&quot;</span><span class="p">);</span>
+        <span class="n">pizza</span><span class="p">.</span><span class="n">prepare</span><span class="p">();</span>
+        <span class="n">pizza</span><span class="p">.</span><span class="n">bake</span><span class="p">();</span>
+        <span class="n">pizza</span><span class="p">.</span><span class="n">cut</span><span class="p">();</span>
+        <span class="n">pizza</span><span class="p">.</span><span class="n">box</span><span class="p">();</span>
+        <span class="k">return</span> <span class="n">pizza</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">class</span> <span class="n">NYPizzaStore</span> <span class="n">extends</span> <span class="n">PizzaStore</span> <span class="p">{</span>
+    <span class="c1">//由子类来决定具体实例化哪个</span>
+    <span class="n">Pizza</span> <span class="n">createPizza</span><span class="p">(</span><span class="n">String</span> <span class="n">item</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">equals</span><span class="p">(</span><span class="s">&quot;cheese&quot;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">new</span> <span class="n">NYStyleCheesePizza</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">equals</span><span class="p">(</span><span class="s">&quot;veggie&quot;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">new</span> <span class="n">NYStyleVeggiePizza</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">equals</span><span class="p">(</span><span class="s">&quot;clam&quot;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">new</span> <span class="n">NYStyleClamPizza</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">equals</span><span class="p">(</span><span class="s">&quot;pepperoni&quot;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">new</span> <span class="n">NYStylePepperoniPizza</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">return</span> <span class="n">null</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="n">public</span> <span class="n">class</span> <span class="n">PizzaTestDrive</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">PizzaStore</span> <span class="n">nyStore</span> <span class="o">=</span> <span class="n">new</span> <span class="n">NYPizzaStore</span><span class="p">();</span>
+        <span class="n">PizzaStore</span> <span class="n">chicagoStore</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ChicagoPizzaStore</span><span class="p">();</span>
+
+        <span class="n">Pizza</span> <span class="n">pizza</span> <span class="o">=</span> <span class="n">nyStore</span><span class="p">.</span><span class="n">orderPizza</span><span class="p">(</span><span class="s">&quot;cheese&quot;</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Ethan ordered a &quot;</span> <span class="o">+</span> <span class="n">pizza</span><span class="p">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+        <span class="n">pizza</span> <span class="o">=</span> <span class="n">chicagoStore</span><span class="p">.</span><span class="n">orderPizza</span><span class="p">(</span><span class="s">&quot;cheese&quot;</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Joel ordered a &quot;</span> <span class="o">+</span> <span class="n">pizza</span><span class="p">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div></div>
+        <hr />
+    </div>
+		
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="../tag/chou-xiang-gong-han-mo-shi.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="../archives.html">Archives</a>
+                <li><a href="../tags.html">Tags</a>
+                <li><a href="http://www.linuxyu.com/" rel="alternate">Atom feed</a></li>
+                <li><a href="http://www.linuxyu.com/feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="../category/life.html">Life</a></li>
+                <li><a href="../category/tech.html">Tech</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://74.125.20.33/">Google</a></li>
+                <li><a href="http://python.org/">Python</a></li>
+                <li><a href="http://docs.getpelican.com/">Pelican</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="https://github.com/sunjianhua1990s">Github</a></li>
+                <li><a href="http://blog.csdn.net/huaxi1902">CSDN</a></li>
+                <li><a href="">知乎</a></li>
+                <li><a href="">豆瓣</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="..">Build the World</a> &copy; sunjianhua 2012</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
+<script>var _gaq=[['_setAccount','UA-52496177-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+<a href="https://github.com/sunjianhua1990s"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
+ 
+</body>
+</html>
