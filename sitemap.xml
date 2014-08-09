@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.linuxyu.com/index.html</loc>
-<lastmod>2014-08-05T10:45:59-00:00</lastmod>
+<lastmod>2014-08-10T01:38:40-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.linuxyu.com/archives.html</loc>
-<lastmod>2014-08-05T10:45:59-00:00</lastmod>
+<lastmod>2014-08-10T01:38:40-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.linuxyu.com/tags.html</loc>
-<lastmod>2014-08-05T10:45:59-00:00</lastmod>
+<lastmod>2014-08-10T01:38:40-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.linuxyu.com/categories.html</loc>
-<lastmod>2014-08-05T10:45:59-00:00</lastmod>
+<lastmod>2014-08-10T01:38:40-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -39,7 +39,14 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.linuxyu.com/pages/2014/07/27/google_prime.html</loc>
+<loc>http://www.linuxyu.com/pages/2014/08/07/google_prime_2.html</loc>
+<lastmod>2014-08-07T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+
+<url>
+<loc>http://www.linuxyu.com/pages/2014/07/27/google_prime_1.html</loc>
 <lastmod>2014-07-27T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
@@ -166,7 +173,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.linuxyu.com/category/tech.html</loc>
-<lastmod>2014-07-27T00:00:00-00:00</lastmod>
+<lastmod>2014-08-07T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -229,7 +236,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.linuxyu.com/tag/su-shu.html</loc>
-<lastmod>2014-07-27T00:00:00-00:00</lastmod>
+<lastmod>2014-08-07T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -334,7 +341,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.linuxyu.com/author/sunjianhua.html</loc>
-<lastmod>2014-07-27T00:00:00-00:00</lastmod>
+<lastmod>2014-08-07T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

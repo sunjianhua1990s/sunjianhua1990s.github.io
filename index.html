@@ -57,8 +57,8 @@
 
     <div class='article'>
         <div class="content-title">
-            <a href="./pages/2014/07/27/google_prime.html"><h1>一道google面试题</h1></a>
-2014-07-27
+            <a href="./pages/2014/08/07/google_prime_2.html"><h1>一道google面试题（中）</h1></a>
+2014-08-07
 
 by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
  
@@ -67,10 +67,173 @@ by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
  
         </div>
         
-        <div><p>Google早几年在美国很多地铁的出站口都有大幅招聘广告，它的第一题如下了：{first 10-digit prime found in consecutive digits e}.com，也就是自然数e中出现的连续的第一个10个数字组成的质数。据说当时只要正确解答了这道题，在浏览器的地址栏中输入这个答案，就可以进入下一轮的测试，整个测试过程如同一个数学迷宫，直到你成为google的一员。</p>
+        <div><h2>素数判断</h2>
+<h3>版本1</h3>
+<p>素数，即除1以外，只能被1和其本身整除的数。因此根据定义，最初的判断素数的方法为版本1。</p>
+<div class="highlight"><pre><span class="c1">//judge prime </span>
+<span class="c1">//program 1</span>
+<span class="n">bool</span> <span class="n">prime_1</span><span class="p">(</span><span class="k">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="n">i</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>版本2</h3>
+<p>由于一个数的因式分解可表示为<code>x = a * b, a&lt;=b</code>，因此在判断整数n是不是素数时并不需要整数从2 ～ n，只需要整除2 ～ sqrt(n) 即可。</p>
+<div class="highlight"><pre><span class="c1">//judge prime </span>
+<span class="c1">//program 2</span>
+<span class="n">bool</span> <span class="n">prime_2</span><span class="p">(</span><span class="k">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">int</span> <span class="n">i</span><span class="p">,</span><span class="n">n2</span><span class="p">;</span>
+
+    <span class="n">n2</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n2</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="n">i</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>但是需要注意的是，int类型只能表示<code>2^-31 ~ 2^31</code> 范围，并不能完整表示10位大小的整数n，因此需要使用能够long long int类型。其次，求平方根的函数原型为<code>double sqrt(double)</code>，进行sqrt(n)计算时并不确定能保证其精度。最后，对e小数点后，每个10位数字大小的整数n进行判断，需要对每个<code>2 ～ sqrt(n)</code>的整数进行判断，单个判断耗时间太久，所有判断重复运算太多。因此次方法必然不行。</p>
+<h3>版本3</h3>
+<p>任何一个合数都可以表现为适当个素数的乘积的形式，所以我们只用素数去除要判断的数即可，比如要判断100以内的素数，只用10以内的2，3，5，7就够了。那么首先就要构建一个素数表，以空间换时间。</p>
+<p>可以使用一种被称为<strong>“埃拉托色尼筛”</strong>的算法。该算法一开始初始化一个2～n的连续整数序列。从2开始，2的倍数肯定不是素数，去除，剩下的数中下一个是3。再把3的倍数去除，再下一个是5（4已经去除了），以此类推，最后剩下的数必然是素数，因为它没有被筛，不是任何一个数的倍数（除了1和自己）。这样只需要很多次加法就可以了。</p>
+<div class="highlight"><pre><span class="c1">//create prime less then n </span>
+<span class="c1">//program 3</span>
+
+<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdio</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
+<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdlib</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
+<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">math</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>  <span class="c1">//Linux, gcc -lm</span>
+<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdbool</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
+
+
+<span class="p">#</span><span class="n">define</span> <span class="n">Long64</span> <span class="n">long</span> <span class="n">long</span>
+<span class="p">#</span><span class="n">define</span> <span class="no">MAX_N</span> <span class="mh">8000000</span>
+
+<span class="n">Long64</span> <span class="n">prime_table</span><span class="p">[</span><span class="no">MAX_N</span><span class="o">/</span><span class="mh">2</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mh">0</span><span class="p">};</span>
+
+<span class="k">void</span> <span class="n">create_prime_table</span><span class="p">(</span><span class="n">Long64</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Long64</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">n2</span><span class="p">;</span>
+    <span class="n">bool</span> <span class="n">prime</span><span class="p">[</span><span class="no">MAX_N</span><span class="o">+</span><span class="mh">1</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mh">0</span><span class="p">};</span>
+
+    <span class="n">n2</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+
+    <span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n2</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="n">i</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">+=</span><span class="n">i</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">prime</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">j</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">prime_table</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+            <span class="n">j</span><span class="o">++</span><span class="p">;</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%lld : %lld </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">void</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">create_prime_table</span><span class="p">(</span><span class="no">MAX_N</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>这算是基本的筛法了，但它还有很多优化的空间。首先内存中存的表不只是素数，还有合数的空间，合数比素数多得多。
+其次对于合数可能会被筛选多次，比如6，在2的时候筛掉一次。在3的时候又筛掉一次。</p>
+<h3>版本4</h3>
+<p>采用线性筛选方式，即对一个合数，只进行一次筛选，极大程度的减少重复计算。</p>
+<div class="highlight"><pre><span class="c1">//create prime less then n</span>
+<span class="c1">//program 4</span>
+
+<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdio</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
+<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdlib</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
+<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">math</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>  <span class="c1">//Linux, gcc -lm</span>
+<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdbool</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
+
+
+<span class="p">#</span><span class="n">define</span> <span class="n">Long64</span> <span class="n">long</span> <span class="n">long</span>
+<span class="p">#</span><span class="n">define</span> <span class="no">MAX_N</span> <span class="mh">8000000</span>
+
+<span class="n">Long64</span> <span class="n">prime_table</span><span class="p">[</span><span class="no">MAX_N</span><span class="o">/</span><span class="mh">2</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mh">0</span><span class="p">};</span>
+
+
+<span class="k">void</span> <span class="n">create_prime_table2</span><span class="p">(</span><span class="n">Long64</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Long64</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">;</span>
+    <span class="n">bool</span> <span class="n">prime</span><span class="p">[</span><span class="no">MAX_N</span><span class="o">+</span><span class="mh">1</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mh">0</span><span class="p">};</span>
+
+    <span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span>
+    <span class="n">k</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">prime_table</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%lld : %lld </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">k</span> <span class="o">&amp;&amp;</span> <span class="n">prime_table</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">prime</span><span class="p">[</span><span class="n">prime_table</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="n">prime_table</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
+                <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">void</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">create_prime_table2</span><span class="p">(</span><span class="no">MAX_N</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>当计算10^10 ，也就是约等于2^32 时，仅bool prime[1000000000]就能把2G内存吃完。因此版本4程序在本机测试最大能算到大概8000000以内的素数。程序还需要继续优化。。。。</p></div>
+        <hr />
+    </div>
+		
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="./pages/2014/07/27/google_prime_1.html"><h2>一道google面试题（上）</h2></a>
+        <div class= "well small"> 2014-07-27
+
+by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>Google早几年在美国很多地铁的出站口都有大幅招聘广告，它的第一题如下了：{first 10-digit prime found in consecutive digits e}.com，也就是自然数e中出现的连续的第一个10个数字组成的质数。据说当时只要正确解答了这道题，在浏览器的地址栏中输入这个答案，就可以进入下一轮的测试，整个测试过程如同一个数学迷宫，直到你成为google的一员。</p>
 <p>对这题比较感兴趣，就暂时开题，这两天动笔完成这篇博客。</p>
-<p><strong>update</strong>：2014-07-31</p>
-<p>更新自然数e的求法</p>
 <h2>难点分析</h2>
 <p>初步分析，主要两个难点：</p>
 <p>（1）e的小数点后n位有效数字，提供素数判断的数据源；</p>
@@ -82,282 +245,9 @@ by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
 
 
 <p>当x=1时，</p>
-<div class="highlight"><pre><span class="n">e</span><span class="err">≈</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">!</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="o">!</span> <span class="o">+</span><span class="err">……</span><span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">n</span><span class="o">!</span>   <span class="err">（</span><span class="mi">2</span><span class="err">）</span>
-</pre></div>
-
-
-<p>取n=10,即可算出近似值e≈2.7182818。 当n取较大值时，可获得高精度的e。</p>
-<h3>版本1</h3>
-<p>最初步的想法，直接利用泰勒公式计算，printf出来。</p>
-<div class="highlight"><pre><span class="c1">//compute e </span>
-<span class="c1">//program 1</span>
-
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdio</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-<span class="p">#</span><span class="n">define</span> <span class="no">N</span> <span class="mh">20</span>
-
-<span class="k">int</span> <span class="n">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">double</span> <span class="n">e</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
-    <span class="k">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
-
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mh">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="no">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span> <span class="o">/</span> <span class="n">i</span><span class="p">;</span>
-        <span class="n">e</span> <span class="o">=</span> <span class="n">e</span> <span class="o">+</span> <span class="n">t</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;e=%.20lf</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">e</span> <span class="p">);</span>
-    <span class="k">return</span> <span class="mh">0</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h3>版本2</h3>
-<p>对（2）进行叠乘合并起来，改写成如下（3）：</p>
-<div class="highlight"><pre><span class="n">e</span><span class="o">=</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="err">…</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="err">…</span><span class="p">)))</span>   <span class="err">（</span><span class="mi">3</span><span class="err">）</span>
-</pre></div>
-
-
-<p>从最里面的括号往外算，共做n次除法和加法得一段结果，运算效率也是O(N*M)，但是由于收敛速度快些。</p>
-<div class="highlight"><pre><span class="c1">//compute e </span>
-<span class="c1">//program 2</span>
-
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdio</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-<span class="p">#</span><span class="n">define</span> <span class="no">N</span> <span class="mh">20</span>
-
-<span class="k">int</span> <span class="n">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">double</span> <span class="n">e</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-    <span class="k">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
-
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="no">N</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mh">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">){</span>
-        <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">i</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;e=%.20lf</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">e</span> <span class="p">);</span>
-    <span class="k">return</span> <span class="mh">0</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h3>版本3</h3>
-<p>版本1和2只能达到小数点后15位精度，假设我们需要的数据源是e达到e后面1000位数，那么就必须要考虑到高精度的问题。自定义数据结构时必须的，但（3）中主要计算加法、减法和乘法不会丢失精度，而除法会丢失精度，因为它始终存在余数，余数是丢失精度的原因，所以要保存精度就是保存余数，在这里的除法将产生两个整数，一个是商，一个是余数，形如：</p>
-<div class="highlight"><pre><span class="n">a</span> <span class="o">/</span> <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">r</span><span class="p">)</span>
-</pre></div>
-
-
-<p>如果以10为基，那高精度就是对这样的除法继续做下去，将r*10恢复精度，再除，直到满足精度为止。</p>
-<div class="highlight"><pre><span class="c1">//compute e </span>
-<span class="c1">//program 3</span>
-
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdio</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-
-<span class="c1">//umber of significant digit=(DN-1)*4</span>
-<span class="p">#</span><span class="n">define</span> <span class="no">DN</span> <span class="mh">2504</span>
-
-<span class="k">int</span> <span class="n">euler</span><span class="p">[</span><span class="no">DN</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="no">DN</span><span class="p">];</span>
-<span class="k">int</span> <span class="n">step</span><span class="p">,</span><span class="n">n</span><span class="p">;</span>
-
-<span class="k">void</span> <span class="n">precise_division</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">int</span> <span class="n">i</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-    <span class="n">long</span> <span class="n">y</span><span class="o">=</span><span class="mh">0</span><span class="p">,</span><span class="n">r</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="n">step</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="no">DN</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="mh">10000</span><span class="o">*</span><span class="n">r</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-        <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">;</span>
-        <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">y</span><span class="o">%</span><span class="n">n</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="k">void</span> <span class="n">revise</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">int</span> <span class="n">c</span><span class="o">=</span><span class="mh">0</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="no">DN</span><span class="o">-</span><span class="mh">1</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;=</span><span class="mh">0</span><span class="p">;</span><span class="n">i</span><span class="o">--</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">c</span><span class="p">;</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="mh">9999</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">c</span> <span class="o">=</span> <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mh">10000</span><span class="p">;</span>
-            <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">%</span><span class="mh">10000</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="k">else</span>
-            <span class="n">c</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="k">void</span> <span class="n">euler_print</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">int</span> <span class="n">i</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n\n</span><span class="s">E=%d.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">euler</span><span class="p">[</span><span class="mh">0</span><span class="p">]);</span>
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="no">DN</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%.4d &quot;</span><span class="p">,</span><span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-        <span class="k">if</span><span class="p">((</span><span class="n">i</span><span class="o">%</span><span class="mh">250</span><span class="p">)</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
-            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n\t</span><span class="s">now it has %d bit</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="o">*</span><span class="mh">4</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n\n</span><span class="s">eulur number is ok</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="k">void</span> <span class="n">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">int</span> <span class="n">i</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-    <span class="n">step</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-    <span class="n">n</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span>
-
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="no">DN</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-        <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">euler</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span>
-    <span class="n">data</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span>
-
-    <span class="k">while</span><span class="p">(</span><span class="mh">1</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">i</span><span class="o">=</span><span class="n">step</span><span class="p">;</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">i</span><span class="o">++</span><span class="p">;</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">&gt;=</span><span class="no">DN</span><span class="p">)</span>
-            <span class="n">goto</span> <span class="no">_EXT</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="n">step</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
-        <span class="n">precise_division</span><span class="p">();</span>
-        <span class="n">revise</span><span class="p">();</span>
-        <span class="n">n</span><span class="o">++</span><span class="p">;</span>
-    <span class="p">}</span>
-
-<span class="nl">_EXT:</span>
-    <span class="n">euler_print</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h3>版本4</h3>
-<p>参考<a href="http://blog.pfan.cn/rickone/24388.html">文献2</a>，实现本版本，唯一没有想通的部分在于GetLength函数实现的数学原理，这个后续再补充。</p>
-<div class="highlight"><pre><span class="c1">//compute e </span>
-<span class="c1">//program 4</span>
-
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdio</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdlib</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="k">assert</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-
-<span class="c1">//umber of significant digit</span>
-<span class="p">#</span><span class="n">define</span> <span class="no">N</span> <span class="mh">10000</span>
-
-<span class="k">typedef</span> <span class="k">unsigned</span> <span class="k">int</span> <span class="no">UINT</span><span class="p">;</span>
-
-<span class="k">int</span> <span class="n">GetLength</span><span class="p">(</span><span class="k">int</span> <span class="n">m</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">int</span> <span class="n">n</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span>
-    <span class="n">double</span> <span class="n">x</span><span class="o">=</span><span class="mf">2.0</span><span class="o">/</span><span class="mf">2.72</span><span class="p">;</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="mf">1.0</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">n</span><span class="o">++</span><span class="p">;</span>
-            <span class="n">x</span><span class="o">*=</span><span class="p">(</span><span class="n">double</span><span class="p">)(</span><span class="n">n</span><span class="o">+</span><span class="mh">1</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;=</span><span class="mf">1.0</span> <span class="o">&amp;&amp;</span> <span class="n">m</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">x</span><span class="o">/=</span><span class="mf">10.0</span><span class="p">;</span>
-            <span class="o">--</span><span class="n">m</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="mf">1.0</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">n</span><span class="o">++</span><span class="p">;</span>
-        <span class="n">x</span><span class="o">*=</span><span class="p">(</span><span class="n">double</span><span class="p">)(</span><span class="n">n</span><span class="o">+</span><span class="mh">1</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">void</span> <span class="n">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">const</span> <span class="no">UINT</span> <span class="n">base</span><span class="o">=</span><span class="mh">1000000</span><span class="p">;</span>
-    <span class="k">int</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
-    <span class="no">UINT</span> <span class="o">*</span><span class="n">r</span><span class="o">=</span><span class="no">NULL</span><span class="p">;</span>
-    <span class="no">UINT</span> <span class="o">*</span><span class="n">euler</span><span class="o">=</span><span class="no">NULL</span><span class="p">;</span>
-    <span class="no">UINT</span> <span class="n">y</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-
-    <span class="n">m</span><span class="o">=</span><span class="n">GetLength</span><span class="p">(</span><span class="no">N</span><span class="p">);</span>
-
-    <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="no">UINT</span> <span class="o">*</span><span class="p">)</span><span class="n">calloc</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="mh">1</span><span class="p">,</span><span class="n">sizeof</span><span class="p">(</span><span class="no">UINT</span><span class="p">));</span>
-    <span class="n">euler</span><span class="o">=</span><span class="p">(</span><span class="no">UINT</span> <span class="o">*</span><span class="p">)</span><span class="n">calloc</span><span class="p">(</span><span class="no">N</span><span class="p">,</span><span class="n">sizeof</span><span class="p">(</span><span class="no">UINT</span><span class="p">));</span>
-
-    <span class="k">assert</span><span class="p">(</span><span class="n">r</span><span class="o">!=</span><span class="no">NULL</span><span class="p">);</span>
-    <span class="k">assert</span><span class="p">(</span><span class="n">euler</span><span class="o">!=</span><span class="no">NULL</span><span class="p">);</span>
-
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span>
-        <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="n">j</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span>
-    <span class="n">euler</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mh">2</span><span class="p">;</span>
-
-    <span class="k">for</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="no">N</span><span class="p">;</span><span class="n">k</span><span class="o">&gt;</span><span class="mh">0</span><span class="p">;</span><span class="n">k</span><span class="o">-=</span><span class="mh">6</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">y</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-        <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;=</span><span class="mh">2</span><span class="p">;</span><span class="o">--</span><span class="n">i</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">base</span><span class="p">;</span>
-            <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="o">%</span><span class="n">i</span><span class="p">;</span>
-            <span class="n">y</span> <span class="o">/=</span> <span class="n">i</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span><span class="p">(</span><span class="n">k</span><span class="o">&lt;</span><span class="mh">6</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">euler</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="o">%</span><span class="n">base</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="k">else</span>
-        <span class="p">{</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">y</span><span class="o">&lt;</span><span class="n">base</span><span class="p">)</span>
-                <span class="n">euler</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
-            <span class="k">else</span>
-            <span class="p">{</span>
-                <span class="k">if</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-                    <span class="n">free</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
-                <span class="k">return</span><span class="p">;</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-        <span class="n">free</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
-
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n\n</span><span class="s">E=%d.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">euler</span><span class="p">[</span><span class="mh">0</span><span class="p">]);</span>
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%.6d &quot;</span><span class="p">,</span><span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-        <span class="k">if</span><span class="p">((</span><span class="n">i</span><span class="o">%</span><span class="mh">100</span><span class="p">)</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
-            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n\t</span><span class="s">now it has %d bit</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="o">*</span><span class="mh">6</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n\n</span><span class="s">eulur number is ok</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-
-    <span class="k">if</span><span class="p">(</span><span class="n">euler</span><span class="p">)</span>
-        <span class="n">free</span><span class="p">(</span><span class="n">euler</span><span class="p">);</span>
-
-    <span class="k">return</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h2>素数判断</h2>
-<p>待补充</p>
-<h3>参考</h3>
-<ol>
-<li>http://blog.renren.com/share/278401109/10017661526</li>
-<li>http://blog.pfan.cn/rickone/24388.html</li>
-</ol></div>
-        <hr />
-    </div>
-		
+<div class="highlight"><pre><span class="n">e</span><span class="err">≈</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1 ...</span></pre></div> <a class="btn btn-info xsmall" href="./pages/2014/07/27/google_prime_1.html">read more</a></div>
+    </div>	
+				
 
  
         
@@ -450,35 +340,6 @@ by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
 <p><strong>缓存代理</strong>：为开销大的运算结果提供暂时存储，它也运行多个客户共享结果，以减少计算或网络延迟。</p>
 <p><strong>同步代理</strong>：多线程的情况下为主题提供安全的访问。</p>
 <p><strong>复杂隐藏代理 ...</strong></p> <a class="btn btn-info xsmall" href="./pages/2014/06/08/head_first_proxy.html">read more</a></div>
-    </div>	
-				
-
- 
-        
-
- 
-
-    <div class='article'>
-        <a href="./pages/2014/06/07/head_first_mvc.html"><h2>《Head First 设计模式》学习笔记——复合模式</h2></a>
-        <div class= "well small"> 2014-06-07
-
-by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
- 
-
-
- </div>
-        <div class="summary"><p>模型-视图-控制器（MVC模式）是一种非常经典的软件架构模式，在UI框架和UI设计思路中扮演着非常重要的角色。从设计模式的角度来看，MVC模式是一种复合模式，它将多个设计模式在一种解决方案中结合起来，用来解决许多设计问题。MVC模式把用户界面交互分拆到不同的三种角色中，使应用程序被分成三个核心部件：Model（模型）、View（视图）、Control（控制器）。</p>
-<h2>设计模式</h2>
-<p>复合模式：结合两个或以上的模式，组成一个解决方案，解决一再发生的一般性问题。如MVC和Model 2</p>
-<h2>模型-视图-控制器</h2>
-<p><strong>模型</strong>：模型持有所有的数据、状态和程序逻辑，模型没有注意到视图和控制器，虽然他提供了操纵和检索状态的接口，并发送状态改变给观察者。</p>
-<p><strong>控制器</strong>：取得用户的输入并解读其对模型的意思。</p>
-<p><strong>视图</strong>：用来呈现模型，视图通常直接从模型中取得它需要显示的状态和数据。
-从模式角度看：</p>
-<p>模型利用“<strong>观察者</strong>”让控制器和视图可以随最新的状态改变而更新。</p>
-<p>另一方面，视图和控制器则实现了“<strong>策略模式</strong>”。控制器是视图的行为，如果你希望有不同的行为，可以直接换一个控制器。</p>
-<p>视图内部使用组合模式管理窗口、按钮以及其他显示组件。</p>
-<h2>MVC与WEB——Model 2 ...</h2> <a class="btn btn-info xsmall" href="./pages/2014/06/07/head_first_mvc.html">read more</a></div>
     </div>	
 				
 <div class="pagination">

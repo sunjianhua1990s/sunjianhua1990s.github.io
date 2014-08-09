@@ -57,6 +57,30 @@
  
 
     <div class='article'>
+        <a href="../pages/2014/06/03/alphabet_order.html"><h2>字典序全排列简单研究</h2></a>
+        <div class= "well small"> 2014-06-03
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>最近看《算法设计与分析基础》这本书，里面讲到了一个字典序全排列问题，书中的方法是：</p>
+<p>（1）从右至左扫描当前的一个排列，需找第一个连续的选择ai和ai+1，使得ai&lt;ai+1。</p>
+<p>（2）在尾部存在大于ai的最小数也就是<code>min{aj | aj&gt;ai, j&gt;i}</code>，并将它放置在i位置上。</p>
+<p>（3）从i+1到n的位置，以元素ai,ai+1,....an.的增序进行填充，其中放在位置i上的元素已经消去。</p>
+<p>这个方法也就是字典序非递归法，更简单的描述是：</p>
+<div class="highlight"><pre> <span class="err">一般而言，设</span><span class="n">P</span><span class="err">是</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">]</span><span class="err">的一个全排列。</span>
+  <span class="n">P</span><span class="o">=</span><span class="n">P1P2</span><span class="err">…</span><span class="n">Pn</span><span class="o">=</span><span class="n">P1P2</span><span class="err">…</span><span class="n">Pj</span><span class="o">-</span><span class="mi">1</span><span class="n">PjPj</span><span class="o">+</span><span class="mi">1</span><span class="err">…</span><span class="n">Pk</span><span class="o">-</span><span class="mi">1</span><span class="n">PkPk ...</span></pre></div> <a class="btn btn-info xsmall" href="../pages/2014/06/03/alphabet_order.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
         <a href="../pages/2014/06/02/head_first_adapter_facade.html"><h2>《Head First 设计模式》学习笔记——适配器模式 + 外观模式</h2></a>
         <div class= "well small"> 2014-06-02
 
@@ -184,33 +208,6 @@ by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
 <h2>要点</h2>
 <p>“模板方法”定义了算法的步骤，把这些步骤的实现延迟到子类中。</p>
 <p>模板方法模式为我们提供了一种代码复用的重要技巧 ...</p> <a class="btn btn-info xsmall" href="../pages/2014/06/02/head_first_template_method.html">read more</a></div>
-    </div>	
-				
-
- 
-        
-
- 
-
-    <div class='article'>
-        <a href="../pages/2014/06/01/head_first_command.html"><h2>《Head First 设计模式》学习笔记——命令模式</h2></a>
-        <div class= "well small"> 2014-06-01
-
-by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
- 
-
-
- </div>
-        <div class="summary"><p>在软件系统中，“行为请求者”与“行为实现者”通常呈现一种“紧耦合”。但在某些场合，比如要对行为进行“记录、撤销/重做、事务”等处理，这种无法抵御变化的紧耦合是不合适的。在这种情况下，如何将“行为请求者”与“行为实现者”解耦？将一组行为抽象为对象，实现二者之间的松耦合，这就是命令模式（Command Pattern）。</p>
-<h2>设计模式</h2>
-<p><strong>命令模式</strong>：将“请求”封装成对象，以便使用不同的请求、队列或者日志来参数化其他对象。命令模式也支持可撤销的操作。</p>
-<h2>模式分析</h2>
-<ol>
-<li>命令模式的本质是对命令进行封装，将发出命令的责任和执行命令的责任分割开。</li>
-<li>每一个命令都是一个操作：请求的一方发出请求，要求执行一个操作；接收的一方收到请求，并执行操作。</li>
-<li>命令模式允许请求的一方和接收的一方独立开来，使得请求的一方不必知道接收请求的一方的接口，更不必知道请求是怎么被接收，以及操作是否被执行、何时被执行，以及是怎么被执行的。</li>
-<li>命令模式使请求本身成为一个对象，这个对象和其他对象一样可以被存储和传递。</li>
-<li>命令模式的关键在于引入了抽象命令接口 ...</li></ol> <a class="btn btn-info xsmall" href="../pages/2014/06/01/head_first_command.html">read more</a></div>
     </div>	
 				
 <div class="pagination">

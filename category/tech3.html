@@ -57,6 +57,33 @@
  
 
     <div class='article'>
+        <a href="../pages/2014/06/01/head_first_command.html"><h2>《Head First 设计模式》学习笔记——命令模式</h2></a>
+        <div class= "well small"> 2014-06-01
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>在软件系统中，“行为请求者”与“行为实现者”通常呈现一种“紧耦合”。但在某些场合，比如要对行为进行“记录、撤销/重做、事务”等处理，这种无法抵御变化的紧耦合是不合适的。在这种情况下，如何将“行为请求者”与“行为实现者”解耦？将一组行为抽象为对象，实现二者之间的松耦合，这就是命令模式（Command Pattern）。</p>
+<h2>设计模式</h2>
+<p><strong>命令模式</strong>：将“请求”封装成对象，以便使用不同的请求、队列或者日志来参数化其他对象。命令模式也支持可撤销的操作。</p>
+<h2>模式分析</h2>
+<ol>
+<li>命令模式的本质是对命令进行封装，将发出命令的责任和执行命令的责任分割开。</li>
+<li>每一个命令都是一个操作：请求的一方发出请求，要求执行一个操作；接收的一方收到请求，并执行操作。</li>
+<li>命令模式允许请求的一方和接收的一方独立开来，使得请求的一方不必知道接收请求的一方的接口，更不必知道请求是怎么被接收，以及操作是否被执行、何时被执行，以及是怎么被执行的。</li>
+<li>命令模式使请求本身成为一个对象，这个对象和其他对象一样可以被存储和传递。</li>
+<li>命令模式的关键在于引入了抽象命令接口 ...</li></ol> <a class="btn btn-info xsmall" href="../pages/2014/06/01/head_first_command.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
         <a href="../pages/2014/05/30/head_first_singleton.html"><h2>《Head First 设计模式》学习笔记——单件模式</h2></a>
         <div class= "well small"> 2014-05-30
 
@@ -186,36 +213,6 @@ by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
 <ol>
 <li><strong>封装变化</strong>————找出应用中可能需要变化之处，把它们独立出来，不要和那些变化的代码混在一起。也即把变化的部分取出来并封装起来，以便以后可以轻而易举地改动或者扩充此部分，而不影响不需要变化的其他部分。</li>
 <li><strong>针对接口编程，而非针对实现编程</strong>————“针对接口编程”，关键在于多态。利用多态，程序可以针对超类型编程，执行时会根据实际状况执行到真正的行为，不会被绑死在超类型的行为上。“针对超类型编程”这句话可以更明确的说成是变量的声明类应该是超类型，通常是一个抽象类或者一个接口，如此，只要是具体实现此超类型的类所产生的对象，都可以指定给这个变量。也就意味着 ...</li></ol> <a class="btn btn-info xsmall" href="../pages/2014/05/27/head_first_strategy.html">read more</a></div>
-    </div>	
-				
-
- 
-        
-
- 
-
-    <div class='article'>
-        <a href="../pages/2014/05/25/python_study.html"><h2>Python边学边用</h2></a>
-        <div class= "well small"> 2014-05-25
-
-by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
- 
-
-
- </div>
-        <div class="summary"><p>由于要对10x10的节点设置静态路由，如果手动写真的太费事了。。。考虑使用编程实现。由于一直想学Python，就借机边学边用吧~~</p>
-<p>Python：是一种面向对象、直译式计算机编程语言。它包含了一组完善而且容易理解的标准库，能够轻松完成很多常见的任务。它的语法简捷和清晰，尽量使用无异义的英语单词，与其它大多数程序设计语言使用大括号不一样，它使用缩进来定义语句块。</p>
-<p>Python开发者的哲学是“<strong>用一种方法，最好是只有一种方法来做一件事</strong>”。</p>
-<p>相对于C/C++来说，Python真的好简单！最终实现代码如下</p>
-<div class="highlight"><pre><span class="cp">#create static route</span>
-
-<span class="n">M</span> <span class="o">=</span> <span class="mi">20</span> <span class="err">#</span><span class="n">row</span>
-<span class="n">N</span> <span class="o">=</span> <span class="mi">20</span> <span class="err">#</span><span class="n">column</span>
-<span class="n">str</span> <span class="o">=</span> <span class="s">&quot;169.0.0.&quot;</span>
-
-<span class="n">file</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span> <span class="err">&#39;</span><span class="n">D</span><span class="o">:</span><span class="err">\</span><span class="n">document</span><span class="err">\</span><span class="n">Desktop</span><span class="err">\</span><span class="n">pftsp_400</span><span class="p">.</span><span class="n">routes</span><span class="o">-</span><span class="k">static</span><span class="err">&#39;</span><span class="p">,</span> <span class="sc">&#39;w&#39;</span> <span class="p">)</span>
-
-<span class="k">for</span> <span class="n">n</span> <span class="n">in</span> <span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">N ...</span></pre></div> <a class="btn btn-info xsmall" href="../pages/2014/05/25/python_study.html">read more</a></div>
     </div>	
 				
 <div class="pagination">

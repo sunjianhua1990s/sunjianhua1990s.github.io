@@ -57,6 +57,35 @@
  
 
     <div class='article'>
+        <a href="./pages/2014/06/07/head_first_mvc.html"><h2>《Head First 设计模式》学习笔记——复合模式</h2></a>
+        <div class= "well small"> 2014-06-07
+
+by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>模型-视图-控制器（MVC模式）是一种非常经典的软件架构模式，在UI框架和UI设计思路中扮演着非常重要的角色。从设计模式的角度来看，MVC模式是一种复合模式，它将多个设计模式在一种解决方案中结合起来，用来解决许多设计问题。MVC模式把用户界面交互分拆到不同的三种角色中，使应用程序被分成三个核心部件：Model（模型）、View（视图）、Control（控制器）。</p>
+<h2>设计模式</h2>
+<p>复合模式：结合两个或以上的模式，组成一个解决方案，解决一再发生的一般性问题。如MVC和Model 2</p>
+<h2>模型-视图-控制器</h2>
+<p><strong>模型</strong>：模型持有所有的数据、状态和程序逻辑，模型没有注意到视图和控制器，虽然他提供了操纵和检索状态的接口，并发送状态改变给观察者。</p>
+<p><strong>控制器</strong>：取得用户的输入并解读其对模型的意思。</p>
+<p><strong>视图</strong>：用来呈现模型，视图通常直接从模型中取得它需要显示的状态和数据。
+从模式角度看：</p>
+<p>模型利用“<strong>观察者</strong>”让控制器和视图可以随最新的状态改变而更新。</p>
+<p>另一方面，视图和控制器则实现了“<strong>策略模式</strong>”。控制器是视图的行为，如果你希望有不同的行为，可以直接换一个控制器。</p>
+<p>视图内部使用组合模式管理窗口、按钮以及其他显示组件。</p>
+<h2>MVC与WEB——Model 2 ...</h2> <a class="btn btn-info xsmall" href="./pages/2014/06/07/head_first_mvc.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
         <a href="./pages/2014/06/03/alphabet_order.html"><h2>字典序全排列简单研究</h2></a>
         <div class= "well small"> 2014-06-03
 
@@ -178,36 +207,6 @@ by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
 <p>改变行为，状态转变可以由state类或context类控制。</p>
 <p>使用状态模式会导致设计模式中类的数目大量增加。</p>
 <p>状态类可以被多个context共享 ...</p> <a class="btn btn-info xsmall" href="./pages/2014/06/02/head_first_state.html">read more</a></div>
-    </div>	
-				
-
- 
-        
-
- 
-
-    <div class='article'>
-        <a href="./pages/2014/06/02/head_first_template_method.html"><h2>《Head First 设计模式》学习笔记——模板方法模式</h2></a>
-        <div class= "well small"> 2014-06-02
-
-by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
- 
-
-
- </div>
-        <div class="summary"><p>模板方法模式是类的行为模式。准备一个抽象类，将部分逻辑以具体方法以及具体构造函数的形式实现，然后声明一些抽象方法来迫使子类实现剩余的逻辑。不同的子类可以以不同的方式实现这些抽象方法，从而对剩余的逻辑有不同的实现。这就是模板方法模式的用意。</p>
-<h2>设计模式</h2>
-<p><strong>模板方法模式</strong>：在一个方法中定义一个算法的框架，而将一些步骤延迟到子类中。模板方法使得子类可以在不改变算法结果的情况下，重新定义算法中的某些步骤。</p>
-<p>模板就是一个方法，这个方法将算法定义成一组步骤，其中的任何步骤都可以是抽象的，由子类负责实现。这样可以确保算法的结构保持不变，同时由子类提供部分实现。</p>
-<p><strong>钩子</strong>是一种被声明在抽象类中的方法，但只有空或默认的实现，钩子的存在，可以让子类有能力对算法的不同点进行挂钩，要不要挂钩，有子类自行决定。</p>
-<p><strong>使用钩子的真正目的</strong>：
-钩子可以让子类实现算法中可选的部分，或者在钩子对于子类的实现并不重要的时候，子类可以对此钩子置之不理。钩子的另一个用法，是让子类能够有机会对模板方法中某些即将发生的（或刚刚发生的）步骤做出反应。</p>
-<h2>设计原则</h2>
-<p><strong>好莱坞原则</strong>：别调用我们，我们会调用你。</p>
-<p>在好莱坞原则下，我们允许低层组件将自己挂钩到系统之上，但是高层组件会决定什么时候和怎样使用这些低层组件。换句话说，高层组件对低层组件的方式是“别调用我们，我们会调用你”。</p>
-<h2>要点</h2>
-<p>“模板方法”定义了算法的步骤，把这些步骤的实现延迟到子类中。</p>
-<p>模板方法模式为我们提供了一种代码复用的重要技巧 ...</p> <a class="btn btn-info xsmall" href="./pages/2014/06/02/head_first_template_method.html">read more</a></div>
     </div>	
 				
 <div class="pagination">
