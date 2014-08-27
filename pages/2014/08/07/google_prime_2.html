@@ -161,7 +161,8 @@ by <a class="url fn" href="../../../../author/sunjianhua.html">sunjianhua</a>
 <p>这算是基本的筛法了，但它还有很多优化的空间。首先内存中存的表不只是素数，还有合数的空间，合数比素数多得多。
 其次对于合数可能会被筛选多次，比如6，在2的时候筛掉一次。在3的时候又筛掉一次。</p>
 <h3>版本4</h3>
-<p>采用线性筛选方式，即对一个合数，只进行一次筛选，极大程度的减少重复计算。</p>
+<p>采用线性筛选方式，即对一个合数，只进行一次筛选，极大程度的减少重复计算。
+同时，采用堆结构存放素数表。</p>
 <div class="highlight"><pre><span class="c1">//create prime less then n</span>
 <span class="c1">//program 4</span>
 
@@ -172,15 +173,16 @@ by <a class="url fn" href="../../../../author/sunjianhua.html">sunjianhua</a>
 
 
 <span class="p">#</span><span class="n">define</span> <span class="n">Long64</span> <span class="n">long</span> <span class="n">long</span>
-<span class="p">#</span><span class="n">define</span> <span class="no">MAX_N</span> <span class="mh">8000000</span>
-
-<span class="n">Long64</span> <span class="n">prime_table</span><span class="p">[</span><span class="no">MAX_N</span><span class="o">/</span><span class="mh">2</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mh">0</span><span class="p">};</span>
-
+<span class="p">#</span><span class="n">define</span> <span class="no">MAX_N</span> <span class="mh">1000000000</span>
 
 <span class="k">void</span> <span class="n">create_prime_table2</span><span class="p">(</span><span class="n">Long64</span> <span class="n">n</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">Long64</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">;</span>
-    <span class="n">bool</span> <span class="n">prime</span><span class="p">[</span><span class="no">MAX_N</span><span class="o">+</span><span class="mh">1</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mh">0</span><span class="p">};</span>
+    <span class="n">bool</span> <span class="o">*</span><span class="n">prime</span><span class="p">;</span>
+    <span class="n">Long64</span> <span class="o">*</span><span class="n">prime_table</span><span class="p">;</span>
+
+    <span class="n">prime</span><span class="o">=</span><span class="p">(</span><span class="n">bool</span> <span class="o">*</span><span class="p">)</span><span class="n">calloc</span><span class="p">(</span><span class="no">MAX_N</span><span class="o">+</span><span class="mh">1</span><span class="p">,</span><span class="n">sizeof</span><span class="p">(</span><span class="n">bool</span><span class="p">));</span>
+    <span class="n">prime_table</span><span class="o">=</span><span class="p">(</span><span class="n">Long64</span> <span class="o">*</span><span class="p">)</span><span class="n">calloc</span><span class="p">(</span><span class="no">MAX_N</span><span class="o">/</span><span class="mh">100</span><span class="p">,</span><span class="n">sizeof</span><span class="p">(</span><span class="n">Long64</span><span class="p">));</span>
 
     <span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span>
     <span class="n">k</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
@@ -189,7 +191,7 @@ by <a class="url fn" href="../../../../author/sunjianhua.html">sunjianhua</a>
         <span class="k">if</span><span class="p">(</span><span class="n">prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
         <span class="p">{</span>
             <span class="n">prime_table</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
-            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%lld : %lld </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+            <span class="c1">//printf(&quot;%lld : %lld \n&quot;,k,i);</span>
         <span class="p">}</span>
         <span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">k</span> <span class="o">&amp;&amp;</span> <span class="n">prime_table</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
         <span class="p">{</span>
@@ -198,6 +200,12 @@ by <a class="url fn" href="../../../../author/sunjianhua.html">sunjianhua</a>
                 <span class="k">break</span><span class="p">;</span>
         <span class="p">}</span>
     <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;k = %lld</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">prime_table</span><span class="p">)</span>
+        <span class="n">free</span><span class="p">(</span><span class="n">prime_table</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">prime</span><span class="p">)</span>
+        <span class="n">free</span><span class="p">(</span><span class="n">prime</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="k">void</span> <span class="n">main</span><span class="p">()</span>
@@ -207,7 +215,8 @@ by <a class="url fn" href="../../../../author/sunjianhua.html">sunjianhua</a>
 </pre></div>
 
 
-<p>当计算10^10 ，也就是约等于2^32 时，仅bool prime[1000000000]就能把2G内存吃完。因此版本4程序在本机测试最大能算到大概8000000以内的素数。程序还需要继续优化。。。。</p></div>
+<p>这样做之后，程序运行速度快多了，但是只能计算到1x10^9....再大时，运行就提示段错误了。还要再在其他地方想办法。。。
+暂时先记录到这里。</p></div>
 	
         <hr>
 

@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Build the World</title><link href="http://www.linuxyu.com/" rel="alternate"></link><link href="http://www.linuxyu.com/feeds/tech.atom.xml" rel="self"></link><id>http://www.linuxyu.com/</id><updated>2014-08-07T00:00:00+08:00</updated><entry><title>一道google面试题（中）</title><link href="http://www.linuxyu.com/pages/2014/08/07/google_prime_2.html" rel="alternate"></link><updated>2014-08-07T00:00:00+08:00</updated><author><name>sunjianhua</name></author><id>tag:www.linuxyu.com,2014-08-07:pages/2014/08/07/google_prime_2.html</id><summary type="html">&lt;h2&gt;素数判断&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Build the World</title><link href="http://www.linuxyu.com/" rel="alternate"></link><link href="http://www.linuxyu.com/feeds/tech.atom.xml" rel="self"></link><id>http://www.linuxyu.com/</id><updated>2014-08-27T00:00:00+08:00</updated><entry><title>一道google面试题（下）</title><link href="http://www.linuxyu.com/pages/2014/08/27/google_prime_3.html" rel="alternate"></link><updated>2014-08-27T00:00:00+08:00</updated><author><name>sunjianhua</name></author><id>tag:www.linuxyu.com,2014-08-27:pages/2014/08/27/google_prime_3.html</id><summary type="html">&lt;p&gt;最近一段时间比较忙，这道题一直没有完成。这次一并解决！&lt;/p&gt;
+&lt;h2&gt;自然数e&lt;/h2&gt;
+&lt;p&gt;在&lt;a href="http://www.linuxyu.com/pages/2014/07/27/google_prime_1.html"&gt;上上一篇博客&lt;/a&gt;中，虽然实现了计算n为自然数e的程序，但是GetLength 函数实现的数学原理一直没有想清楚。其实是这样的。
+计算自然数e时，我们使用的时泰勒公式&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;当考虑到泰勒公式的余项时，余项可以表示为&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="n"&gt;esp&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中esp在0～x之间。再取&lt;code&gt;x=1&lt;/code&gt;,得到&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="n"&gt;esp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;10^(-M)&lt;/code&gt;就是我们要达到的误差限，也就是小数点后的后M位。
+因此，若要计算到10000位的精度，只需计算&lt;code&gt;(n+1)!/e &amp;gt; 10^10000&lt;/code&gt;即可。
+程序中GetLength的实现原理就是这样。&lt;/p&gt;
+&lt;h2&gt;素数判断&lt;/h2&gt;</summary><category term="自然数e，素数"></category></entry><entry><title>一道google面试题（中）</title><link href="http://www.linuxyu.com/pages/2014/08/07/google_prime_2.html" rel="alternate"></link><updated>2014-08-07T00:00:00+08:00</updated><author><name>sunjianhua</name></author><id>tag:www.linuxyu.com,2014-08-07:pages/2014/08/07/google_prime_2.html</id><summary type="html">&lt;h2&gt;素数判断&lt;/h2&gt;
 &lt;h3&gt;版本1&lt;/h3&gt;
 &lt;p&gt;素数，即除1以外，只能被1和其本身整除的数。因此根据定义，最初的判断素数的方法为版本1。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;//judge prime &lt;/span&gt;
@@ -99,7 +120,8 @@
 &lt;p&gt;这算是基本的筛法了，但它还有很多优化的空间。首先内存中存的表不只是素数，还有合数的空间，合数比素数多得多。
 其次对于合数可能会被筛选多次，比如6，在2的时候筛掉一次。在3的时候又筛掉一次。&lt;/p&gt;
 &lt;h3&gt;版本4&lt;/h3&gt;
-&lt;p&gt;采用线性筛选方式，即对一个合数，只进行一次筛选，极大程度的减少重复计算。&lt;/p&gt;
+&lt;p&gt;采用线性筛选方式，即对一个合数，只进行一次筛选，极大程度的减少重复计算。
+同时，采用堆结构存放素数表。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;//create prime less then n&lt;/span&gt;
 &lt;span class="c1"&gt;//program 4&lt;/span&gt;
 
@@ -110,15 +132,16 @@
 
 
 &lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="n"&gt;define&lt;/span&gt; &lt;span class="n"&gt;Long64&lt;/span&gt; &lt;span class="n"&gt;long&lt;/span&gt; &lt;span class="n"&gt;long&lt;/span&gt;
-&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="n"&gt;define&lt;/span&gt; &lt;span class="no"&gt;MAX_N&lt;/span&gt; &lt;span class="mh"&gt;8000000&lt;/span&gt;
-
-&lt;span class="n"&gt;Long64&lt;/span&gt; &lt;span class="n"&gt;prime_table&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="no"&gt;MAX_N&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mh"&gt;0&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
-
+&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="n"&gt;define&lt;/span&gt; &lt;span class="no"&gt;MAX_N&lt;/span&gt; &lt;span class="mh"&gt;1000000000&lt;/span&gt;
 
 &lt;span class="k"&gt;void&lt;/span&gt; &lt;span class="n"&gt;create_prime_table2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Long64&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;Long64&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="n"&gt;bool&lt;/span&gt; &lt;span class="n"&gt;prime&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="no"&gt;MAX_N&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mh"&gt;0&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="n"&gt;bool&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;prime&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;Long64&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;prime_table&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="n"&gt;prime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bool&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;calloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;MAX_N&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mh"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bool&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+    &lt;span class="n"&gt;prime_table&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Long64&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;calloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;MAX_N&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Long64&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 
     &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mh"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mh"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
@@ -127,7 +150,7 @@
         &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prime&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mh"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
         &lt;span class="p"&gt;{&lt;/span&gt;
             &lt;span class="n"&gt;prime_table&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-            &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%lld : %lld &lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="c1"&gt;//printf(&amp;quot;%lld : %lld \n&amp;quot;,k,i);&lt;/span&gt;
         &lt;span class="p"&gt;}&lt;/span&gt;
         &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mh"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;prime_table&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
         &lt;span class="p"&gt;{&lt;/span&gt;
@@ -136,6 +159,12 @@
                 &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
         &lt;span class="p"&gt;}&lt;/span&gt;
     &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;k = %lld&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prime_table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prime_table&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prime&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prime&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 
 &lt;span class="k"&gt;void&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -145,7 +174,8 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;当计算10^10 ，也就是约等于2^32 时，仅bool prime[1000000000]就能把2G内存吃完。因此版本4程序在本机测试最大能算到大概8000000以内的素数。程序还需要继续优化。。。。&lt;/p&gt;</summary><category term="素数"></category></entry><entry><title>一道google面试题（上）</title><link href="http://www.linuxyu.com/pages/2014/07/27/google_prime_1.html" rel="alternate"></link><updated>2014-07-27T00:00:00+08:00</updated><author><name>sunjianhua</name></author><id>tag:www.linuxyu.com,2014-07-27:pages/2014/07/27/google_prime_1.html</id><summary type="html">&lt;p&gt;Google早几年在美国很多地铁的出站口都有大幅招聘广告，它的第一题如下了：{first 10-digit prime found in consecutive digits e}.com，也就是自然数e中出现的连续的第一个10个数字组成的质数。据说当时只要正确解答了这道题，在浏览器的地址栏中输入这个答案，就可以进入下一轮的测试，整个测试过程如同一个数学迷宫，直到你成为google的一员。&lt;/p&gt;
+&lt;p&gt;这样做之后，程序运行速度快多了，但是只能计算到1x10^9....再大时，运行就提示段错误了。还要再在其他地方想办法。。。
+暂时先记录到这里。&lt;/p&gt;</summary><category term="素数"></category></entry><entry><title>一道google面试题（上）</title><link href="http://www.linuxyu.com/pages/2014/07/27/google_prime_1.html" rel="alternate"></link><updated>2014-07-27T00:00:00+08:00</updated><author><name>sunjianhua</name></author><id>tag:www.linuxyu.com,2014-07-27:pages/2014/07/27/google_prime_1.html</id><summary type="html">&lt;p&gt;Google早几年在美国很多地铁的出站口都有大幅招聘广告，它的第一题如下了：{first 10-digit prime found in consecutive digits e}.com，也就是自然数e中出现的连续的第一个10个数字组成的质数。据说当时只要正确解答了这道题，在浏览器的地址栏中输入这个答案，就可以进入下一轮的测试，整个测试过程如同一个数学迷宫，直到你成为google的一员。&lt;/p&gt;
 &lt;p&gt;对这题比较感兴趣，就暂时开题，这两天动笔完成这篇博客。&lt;/p&gt;
 &lt;h2&gt;难点分析&lt;/h2&gt;
 &lt;p&gt;初步分析，主要两个难点：&lt;/p&gt;

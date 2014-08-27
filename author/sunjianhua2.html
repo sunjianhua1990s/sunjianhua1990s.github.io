@@ -57,6 +57,34 @@
  
 
     <div class='article'>
+        <a href="../pages/2014/06/08/head_first_proxy.html"><h2>《Head First 设计模式》学习笔记——代理模式</h2></a>
+        <div class= "well small"> 2014-06-08
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><h2>设计模式</h2>
+<p><strong>代理模式</strong>：为另一个对象提供一个替身或占位符以控制对这个对象的访问。
+使用代理模式创建代表对象，让代表对象控制某对象的访问，被代理的对象可以使远程的对象（远程代理）、创建开销大的对象（虚拟代理），或需要安全控制的对象（保护代理）。</p>
+<p><strong>远程代理</strong>：可以作为另一个JVM上对象的本地代表。调用代理的方法，会被代理利用网络转发到远程执行，并且结果会通过网络返回给代理，再由代理将结果返回给客户。</p>
+<p><strong>虚拟代理</strong>：作为创建开销大的对象的代表。虚拟代理经常直到我们真正需要一个对象的时候才创建它。当对象在创建前和创建中时，由虚拟代理来扮演对象的替身。对象创建后代理就会将请求直接委托给对象。</p>
+<p><strong>动态代理</strong>：java在java.lang.reflect包中有自己的代理支持，利用这个包你可以在运行时动态的创建一个代理类，实现一个或多个接口，并将方法的调用转发到你所指定的类。实际的代理类是在运行时创建的，在Java中我们称这种技术为动态代理。利用Java的动态代理，可以实现保护代理。</p>
+<p><strong>防火墙代理</strong>：控制网络资源的访问，保护主题免于“坏客户”的侵害。</p>
+<p><strong>智能引用代理</strong>：当主题被引用时，进行额外的动作，例如计算一个对象被引用的次数。</p>
+<p><strong>缓存代理</strong>：为开销大的运算结果提供暂时存储，它也运行多个客户共享结果，以减少计算或网络延迟。</p>
+<p><strong>同步代理</strong>：多线程的情况下为主题提供安全的访问。</p>
+<p><strong>复杂隐藏代理 ...</strong></p> <a class="btn btn-info xsmall" href="../pages/2014/06/08/head_first_proxy.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
         <a href="../pages/2014/06/07/head_first_mvc.html"><h2>《Head First 设计模式》学习笔记——复合模式</h2></a>
         <div class= "well small"> 2014-06-07
 
@@ -167,46 +195,6 @@ by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
 <p>在实现组合模式时，有许多设计上的折中，你要根据需要平衡透明性和安全性。</p>
 <h2>模型匹配</h2>
 <p><strong>策略模型</strong>          封装可互换的相位 ...</p> <a class="btn btn-info xsmall" href="../pages/2014/06/02/head_first_iterator_composite.html">read more</a></div>
-    </div>	
-				
-
- 
-        
-
- 
-
-    <div class='article'>
-        <a href="../pages/2014/06/02/head_first_state.html"><h2>《Head First 设计模式》学习笔记——状态模式</h2></a>
-        <div class= "well small"> 2014-06-02
-
-by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
- 
-
-
- </div>
-        <div class="summary"><p>在软件开发过程中，应用程序可能会根据不同的情况作出不同的处理。最直接的解决方案是将这些所有可能发生的情况全都考虑到。然后使用if... ellse语句来做状态判断来进行不同情况的处理。但是对复杂状态的判断就显得“力不从心了”。随着增加新的状态或者修改一个状体（if else(或switch case)语句的增多或者修改）可能会引起很大的修改，而程序的可读性，扩展性也会变得很弱。维护也会很麻烦。那么我就考虑只修改自身状态的模式。</p>
-<h2>设计模式</h2>
-<p><strong>状态模式</strong>：允许对象在内部状态改变时改变他的行为，对象看起来好像修改了它的类。</p>
-<p>这个模式将状态封装称为独立的类，并将动作委托到代表当前状态的对象，我们知道行为会随着内部状态而改变。</p>
-<h2>设计原则</h2>
-<ol>
-<li>封装变化</li>
-<li>多用组合，少用继承</li>
-<li>针对接口编程，不针对实现编程</li>
-<li>为交互对象之间松耦合设计而努力</li>
-<li>类应该对扩展开发，对修改关闭</li>
-<li>依赖抽象，不依赖具体类</li>
-<li>只和朋友交谈</li>
-<li>别找我，我会找你</li>
-<li>类应该只有一个改变的理由</li>
-</ol>
-<h2>要点</h2>
-<p>状态模式允许一个对象基于内部状态而拥有不同的行为。</p>
-<p>和程序状态机不同，状态模式用类代表状态。</p>
-<p>策略模式通常会用行为或算法来配置context类，状态模式允许context随着状态改变而</p>
-<p>改变行为，状态转变可以由state类或context类控制。</p>
-<p>使用状态模式会导致设计模式中类的数目大量增加。</p>
-<p>状态类可以被多个context共享 ...</p> <a class="btn btn-info xsmall" href="../pages/2014/06/02/head_first_state.html">read more</a></div>
     </div>	
 				
 <div class="pagination">

@@ -57,8 +57,8 @@
 
     <div class='article'>
         <div class="content-title">
-            <a href="./pages/2014/08/07/google_prime_2.html"><h1>一道google面试题（中）</h1></a>
-2014-08-07
+            <a href="./pages/2014/08/27/google_prime_3.html"><h1>一道google面试题（下）</h1></a>
+2014-08-27
 
 by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
  
@@ -67,7 +67,47 @@ by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
  
         </div>
         
-        <div><h2>素数判断</h2>
+        <div><p>最近一段时间比较忙，这道题一直没有完成。这次一并解决！</p>
+<h2>自然数e</h2>
+<p>在<a href="http://www.linuxyu.com/pages/2014/07/27/google_prime_1.html">上上一篇博客</a>中，虽然实现了计算n为自然数e的程序，但是GetLength 函数实现的数学原理一直没有想清楚。其实是这样的。
+计算自然数e时，我们使用的时泰勒公式</p>
+<div class="highlight"><pre><span class="n">e</span><span class="o">^</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="o">!</span> <span class="o">+</span><span class="p">...</span> <span class="o">+</span> <span class="n">x</span><span class="o">^</span><span class="n">n</span><span class="o">/</span><span class="n">n</span><span class="o">!</span><span class="p">...</span>
+</pre></div>
+
+
+<p>当考虑到泰勒公式的余项时，余项可以表示为</p>
+<div class="highlight"><pre><span class="n">R</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span><span class="o">^</span><span class="n">esp</span> <span class="o">*</span> <span class="n">x</span><span class="o">^</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">!</span>
+</pre></div>
+
+
+<p>其中esp在0～x之间。再取<code>x=1</code>,得到</p>
+<div class="highlight"><pre><span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">e</span><span class="o">^</span><span class="n">esp</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">!</span> <span class="o">&lt;=</span> <span class="n">e</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">!</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="n">M</span><span class="p">)</span>
+</pre></div>
+
+
+<p><code>10^(-M)</code>就是我们要达到的误差限，也就是小数点后的后M位。
+因此，若要计算到10000位的精度，只需计算<code>(n+1)!/e &gt; 10^10000</code>即可。
+程序中GetLength的实现原理就是这样。</p>
+<h2>素数判断</h2></div>
+        <hr />
+    </div>
+		
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="./pages/2014/08/07/google_prime_2.html"><h2>一道google面试题（中）</h2></a>
+        <div class= "well small"> 2014-08-07
+
+by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><h2>素数判断</h2>
 <h3>版本1</h3>
 <p>素数，即除1以外，只能被1和其本身整除的数。因此根据定义，最初的判断素数的方法为版本1。</p>
 <div class="highlight"><pre><span class="c1">//judge prime </span>
@@ -91,132 +131,9 @@ by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
 <p>由于一个数的因式分解可表示为<code>x = a * b, a&lt;=b</code>，因此在判断整数n是不是素数时并不需要整数从2 ～ n，只需要整除2 ～ sqrt(n) 即可。</p>
 <div class="highlight"><pre><span class="c1">//judge prime </span>
 <span class="c1">//program 2</span>
-<span class="n">bool</span> <span class="n">prime_2</span><span class="p">(</span><span class="k">int</span> <span class="n">n</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">int</span> <span class="n">i</span><span class="p">,</span><span class="n">n2</span><span class="p">;</span>
-
-    <span class="n">n2</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n2</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="n">i</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p>但是需要注意的是，int类型只能表示<code>2^-31 ~ 2^31</code> 范围，并不能完整表示10位大小的整数n，因此需要使用能够long long int类型。其次，求平方根的函数原型为<code>double sqrt(double)</code>，进行sqrt(n)计算时并不确定能保证其精度。最后，对e小数点后，每个10位数字大小的整数n进行判断，需要对每个<code>2 ～ sqrt(n)</code>的整数进行判断，单个判断耗时间太久，所有判断重复运算太多。因此次方法必然不行。</p>
-<h3>版本3</h3>
-<p>任何一个合数都可以表现为适当个素数的乘积的形式，所以我们只用素数去除要判断的数即可，比如要判断100以内的素数，只用10以内的2，3，5，7就够了。那么首先就要构建一个素数表，以空间换时间。</p>
-<p>可以使用一种被称为<strong>“埃拉托色尼筛”</strong>的算法。该算法一开始初始化一个2～n的连续整数序列。从2开始，2的倍数肯定不是素数，去除，剩下的数中下一个是3。再把3的倍数去除，再下一个是5（4已经去除了），以此类推，最后剩下的数必然是素数，因为它没有被筛，不是任何一个数的倍数（除了1和自己）。这样只需要很多次加法就可以了。</p>
-<div class="highlight"><pre><span class="c1">//create prime less then n </span>
-<span class="c1">//program 3</span>
-
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdio</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdlib</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">math</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>  <span class="c1">//Linux, gcc -lm</span>
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdbool</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-
-
-<span class="p">#</span><span class="n">define</span> <span class="n">Long64</span> <span class="n">long</span> <span class="n">long</span>
-<span class="p">#</span><span class="n">define</span> <span class="no">MAX_N</span> <span class="mh">8000000</span>
-
-<span class="n">Long64</span> <span class="n">prime_table</span><span class="p">[</span><span class="no">MAX_N</span><span class="o">/</span><span class="mh">2</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mh">0</span><span class="p">};</span>
-
-<span class="k">void</span> <span class="n">create_prime_table</span><span class="p">(</span><span class="n">Long64</span> <span class="n">n</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">Long64</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">n2</span><span class="p">;</span>
-    <span class="n">bool</span> <span class="n">prime</span><span class="p">[</span><span class="no">MAX_N</span><span class="o">+</span><span class="mh">1</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mh">0</span><span class="p">};</span>
-
-    <span class="n">n2</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-
-    <span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span>
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n2</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="n">i</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">+=</span><span class="n">i</span><span class="p">)</span>
-            <span class="p">{</span>
-                <span class="n">prime</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="n">j</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">prime_table</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
-            <span class="n">j</span><span class="o">++</span><span class="p">;</span>
-            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%lld : %lld </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="k">void</span> <span class="n">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">create_prime_table</span><span class="p">(</span><span class="no">MAX_N</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p>这算是基本的筛法了，但它还有很多优化的空间。首先内存中存的表不只是素数，还有合数的空间，合数比素数多得多。
-其次对于合数可能会被筛选多次，比如6，在2的时候筛掉一次。在3的时候又筛掉一次。</p>
-<h3>版本4</h3>
-<p>采用线性筛选方式，即对一个合数，只进行一次筛选，极大程度的减少重复计算。</p>
-<div class="highlight"><pre><span class="c1">//create prime less then n</span>
-<span class="c1">//program 4</span>
-
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdio</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdlib</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">math</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>  <span class="c1">//Linux, gcc -lm</span>
-<span class="p">#</span><span class="k">include</span> <span class="o">&lt;</span><span class="n">stdbool</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-
-
-<span class="p">#</span><span class="n">define</span> <span class="n">Long64</span> <span class="n">long</span> <span class="n">long</span>
-<span class="p">#</span><span class="n">define</span> <span class="no">MAX_N</span> <span class="mh">8000000</span>
-
-<span class="n">Long64</span> <span class="n">prime_table</span><span class="p">[</span><span class="no">MAX_N</span><span class="o">/</span><span class="mh">2</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mh">0</span><span class="p">};</span>
-
-
-<span class="k">void</span> <span class="n">create_prime_table2</span><span class="p">(</span><span class="n">Long64</span> <span class="n">n</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">Long64</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">;</span>
-    <span class="n">bool</span> <span class="n">prime</span><span class="p">[</span><span class="no">MAX_N</span><span class="o">+</span><span class="mh">1</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mh">0</span><span class="p">};</span>
-
-    <span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span>
-    <span class="n">k</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
-    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mh">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">prime_table</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
-            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%lld : %lld </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">k</span> <span class="o">&amp;&amp;</span> <span class="n">prime_table</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">prime</span><span class="p">[</span><span class="n">prime_table</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mh">1</span><span class="p">;</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="n">prime_table</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="mh">0</span><span class="p">)</span>
-                <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="k">void</span> <span class="n">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">create_prime_table2</span><span class="p">(</span><span class="no">MAX_N</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p>当计算10^10 ，也就是约等于2^32 时，仅bool prime[1000000000]就能把2G内存吃完。因此版本4程序在本机测试最大能算到大概8000000以内的素数。程序还需要继续优化。。。。</p></div>
-        <hr />
-    </div>
-		
+<span class="n">bool</span> <span class="n">prime_2 ...</span></pre></div> <a class="btn btn-info xsmall" href="./pages/2014/08/07/google_prime_2.html">read more</a></div>
+    </div>	
+				
 
  
         
@@ -312,34 +229,6 @@ by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
 
 
 <p>这个操作可以判断无符号证书是不是2 ...</p> <a class="btn btn-info xsmall" href="./pages/2014/06/14/hacker_delifht.html">read more</a></div>
-    </div>	
-				
-
- 
-        
-
- 
-
-    <div class='article'>
-        <a href="./pages/2014/06/08/head_first_proxy.html"><h2>《Head First 设计模式》学习笔记——代理模式</h2></a>
-        <div class= "well small"> 2014-06-08
-
-by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
- 
-
-
- </div>
-        <div class="summary"><h2>设计模式</h2>
-<p><strong>代理模式</strong>：为另一个对象提供一个替身或占位符以控制对这个对象的访问。
-使用代理模式创建代表对象，让代表对象控制某对象的访问，被代理的对象可以使远程的对象（远程代理）、创建开销大的对象（虚拟代理），或需要安全控制的对象（保护代理）。</p>
-<p><strong>远程代理</strong>：可以作为另一个JVM上对象的本地代表。调用代理的方法，会被代理利用网络转发到远程执行，并且结果会通过网络返回给代理，再由代理将结果返回给客户。</p>
-<p><strong>虚拟代理</strong>：作为创建开销大的对象的代表。虚拟代理经常直到我们真正需要一个对象的时候才创建它。当对象在创建前和创建中时，由虚拟代理来扮演对象的替身。对象创建后代理就会将请求直接委托给对象。</p>
-<p><strong>动态代理</strong>：java在java.lang.reflect包中有自己的代理支持，利用这个包你可以在运行时动态的创建一个代理类，实现一个或多个接口，并将方法的调用转发到你所指定的类。实际的代理类是在运行时创建的，在Java中我们称这种技术为动态代理。利用Java的动态代理，可以实现保护代理。</p>
-<p><strong>防火墙代理</strong>：控制网络资源的访问，保护主题免于“坏客户”的侵害。</p>
-<p><strong>智能引用代理</strong>：当主题被引用时，进行额外的动作，例如计算一个对象被引用的次数。</p>
-<p><strong>缓存代理</strong>：为开销大的运算结果提供暂时存储，它也运行多个客户共享结果，以减少计算或网络延迟。</p>
-<p><strong>同步代理</strong>：多线程的情况下为主题提供安全的访问。</p>
-<p><strong>复杂隐藏代理 ...</strong></p> <a class="btn btn-info xsmall" href="./pages/2014/06/08/head_first_proxy.html">read more</a></div>
     </div>	
 				
 <div class="pagination">

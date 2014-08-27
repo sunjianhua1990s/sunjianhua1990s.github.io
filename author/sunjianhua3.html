@@ -57,6 +57,46 @@
  
 
     <div class='article'>
+        <a href="../pages/2014/06/02/head_first_state.html"><h2>《Head First 设计模式》学习笔记——状态模式</h2></a>
+        <div class= "well small"> 2014-06-02
+
+by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>在软件开发过程中，应用程序可能会根据不同的情况作出不同的处理。最直接的解决方案是将这些所有可能发生的情况全都考虑到。然后使用if... ellse语句来做状态判断来进行不同情况的处理。但是对复杂状态的判断就显得“力不从心了”。随着增加新的状态或者修改一个状体（if else(或switch case)语句的增多或者修改）可能会引起很大的修改，而程序的可读性，扩展性也会变得很弱。维护也会很麻烦。那么我就考虑只修改自身状态的模式。</p>
+<h2>设计模式</h2>
+<p><strong>状态模式</strong>：允许对象在内部状态改变时改变他的行为，对象看起来好像修改了它的类。</p>
+<p>这个模式将状态封装称为独立的类，并将动作委托到代表当前状态的对象，我们知道行为会随着内部状态而改变。</p>
+<h2>设计原则</h2>
+<ol>
+<li>封装变化</li>
+<li>多用组合，少用继承</li>
+<li>针对接口编程，不针对实现编程</li>
+<li>为交互对象之间松耦合设计而努力</li>
+<li>类应该对扩展开发，对修改关闭</li>
+<li>依赖抽象，不依赖具体类</li>
+<li>只和朋友交谈</li>
+<li>别找我，我会找你</li>
+<li>类应该只有一个改变的理由</li>
+</ol>
+<h2>要点</h2>
+<p>状态模式允许一个对象基于内部状态而拥有不同的行为。</p>
+<p>和程序状态机不同，状态模式用类代表状态。</p>
+<p>策略模式通常会用行为或算法来配置context类，状态模式允许context随着状态改变而</p>
+<p>改变行为，状态转变可以由state类或context类控制。</p>
+<p>使用状态模式会导致设计模式中类的数目大量增加。</p>
+<p>状态类可以被多个context共享 ...</p> <a class="btn btn-info xsmall" href="../pages/2014/06/02/head_first_state.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
         <a href="../pages/2014/06/02/head_first_template_method.html"><h2>《Head First 设计模式》学习笔记——模板方法模式</h2></a>
         <div class= "well small"> 2014-06-02
 
@@ -181,45 +221,6 @@ by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
 <p>所有的工厂都是用来封装对象的创建的。</p>
 <p>工厂方法使用继承：把对象的创建委托给子类，子类实现工厂方法来创建对象。</p>
 <p>抽象工厂使用对象组合：对象的创建被实现在工厂接口所暴露的方法中 ...</p> <a class="btn btn-info xsmall" href="../pages/2014/05/29/head_first_factory.html">read more</a></div>
-    </div>	
-				
-
- 
-        
-
- 
-
-    <div class='article'>
-        <a href="../pages/2014/05/28/head_first_observer_decorator.html"><h2>《Head First 设计模式》学习笔记——观察者模式 + 装饰者模式</h2></a>
-        <div class= "well small"> 2014-05-28
-
-by <a class="url fn" href="../author/sunjianhua.html">sunjianhua</a>
- 
-
-
- </div>
-        <div class="summary"><p>装饰者模式是JDK中另一个使用较多的设计模式，上一个是观察者模式（在Swing中大量使用），业内好的API设计无一离不开常见的设计模式，通常我们所说要阅读源码，也是为了学习大牛们的设计思路。</p>
-<h2>设计模式</h2>
-<p><strong>观察者模式</strong>：定义了对象之间一对多的依赖，这样一来，当一个对象改变状态时，它的所有依赖者都会受到通知并自动更新。</p>
-<p><strong>装饰者模式</strong>：动态地将责任附加到对象上。若要扩展功能，装饰者提供比继承者更有弹性的替代方案。</p>
-<h2>设计原则</h2>
-<ol>
-<li>封装变化。</li>
-<li>多用组合，少用继承。</li>
-<li>针对接口编程，而不是针对实现编程。</li>
-<li>为了交互对象之间的松耦合设计努力。
-对象之间的像话依赖降到了最低，有助于简历有弹性的OO系统，能够应对变化。</li>
-<li>类应该对扩展开发，对修改关闭。
-目标是允许类容易扩展，在不修改现有代码的情况下，就可以搭配出新的行为。</li>
-</ol>
-<h2>要点</h2>
-<p>观察者模式定义了对象之间一对多的关系。</p>
-<p>使用观察者模式时，可以从被观察者出推或拉数据。</p>
-<p>观察者模式中，会改变的是主题的状态，以及观察者的数量和类型。用这个模式，你可以改变依赖于主题状态的对象，却不必改变主题。</p>
-<p>继承属于扩展形式之一，但不见得是达到弹性设计的最佳方式。</p>
-<p>组合和委托可用于运行时动态加上新的行为。</p>
-<p>装饰者可以在被装饰者的行为前面与或后面加上自己的行为，甚至取代，达到特有的目的。</p>
-<p>装饰者会导致设计中出现许多小对象，如果过度使用，会让小程序变得复杂 ...</p> <a class="btn btn-info xsmall" href="../pages/2014/05/28/head_first_observer_decorator.html">read more</a></div>
     </div>	
 				
 <div class="pagination">
