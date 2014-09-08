@@ -92,7 +92,20 @@
 
 
 &lt;h2&gt;收尾：判断e中首个连续10位素数&lt;/h2&gt;
-&lt;p&gt;有了以上问题解决后，这道题终于可以解决了。不仅可以找到第一个10位长度的素数，还可以找到前10个！代码如下&lt;/p&gt;
+&lt;p&gt;有了以上问题解决后，这道题终于可以解决了。不仅可以找到第一个10位长度的素数，还可以找到前10个！前10个结果如下，格式为“第几个：在e中的起始位置：要找的素数”&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1:99:7427466391  &lt;br /&gt;
+2:123:7413596629  &lt;br /&gt;
+3:149:6059563073  &lt;br /&gt;
+4:171:3490763233  &lt;br /&gt;
+5:182:2988075319  &lt;br /&gt;
+6:201:1573834187  &lt;br /&gt;
+7:214:7021540891  &lt;br /&gt;
+8:218:5408914993  &lt;br /&gt;
+9:254:6480016847  &lt;br /&gt;
+10:295:9920695517    &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;完整实现代码如下&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;lt;stdio.h&amp;gt;&lt;/span&gt;
 &lt;span class="cp"&gt;#include &amp;lt;stdlib.h&amp;gt;&lt;/span&gt;
 &lt;span class="cp"&gt;#include &amp;lt;math.h&amp;gt;  &lt;/span&gt;&lt;span class="c1"&gt;//Linux, gcc -lm&lt;/span&gt;

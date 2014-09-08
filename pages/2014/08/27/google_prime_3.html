@@ -154,7 +154,20 @@ by <a class="url fn" href="../../../../author/sunjianhua.html">sunjianhua</a>
 
 
 <h2>收尾：判断e中首个连续10位素数</h2>
-<p>有了以上问题解决后，这道题终于可以解决了。不仅可以找到第一个10位长度的素数，还可以找到前10个！代码如下</p>
+<p>有了以上问题解决后，这道题终于可以解决了。不仅可以找到第一个10位长度的素数，还可以找到前10个！前10个结果如下，格式为“第几个：在e中的起始位置：要找的素数”</p>
+<blockquote>
+<p>1:99:7427466391  <br />
+2:123:7413596629  <br />
+3:149:6059563073  <br />
+4:171:3490763233  <br />
+5:182:2988075319  <br />
+6:201:1573834187  <br />
+7:214:7021540891  <br />
+8:218:5408914993  <br />
+9:254:6480016847  <br />
+10:295:9920695517    </p>
+</blockquote>
+<p>完整实现代码如下</p>
 <div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
 <span class="cp">#include &lt;stdlib.h&gt;</span>
 <span class="cp">#include &lt;math.h&gt;  </span><span class="c1">//Linux, gcc -lm</span>
