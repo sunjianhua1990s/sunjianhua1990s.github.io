@@ -57,6 +57,43 @@
  
 
     <div class='article'>
+        <a href="./pages/2014/06/14/hacker_delifht.html"><h2>《算法心得》一点整理</h2></a>
+        <div class= "well small"> 2014-06-14
+
+by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>最近在图书馆看到本神书《算法心得：高效算法的奥秘》，主要讲解计算机算法的，强调编译器优化和计算机体系结构设计的。虽然看的不大懂，但还是给自己增长了见识和知识。少许整理些自己感兴趣的算法，以备后续温故知新。</p>
+<h2>1. 操作最右边的位元</h2>
+<p>a. 将字组中值为1且最靠右的位元置0，如果不存在值为1的位元，则全部结果为0（例如 0101 1110 =&gt; 0101 1100）：</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>这个操作可以判断无符号证书是不是2的幂或者0.</p>
+<p>b. 将字组中值为0且最靠右的位元置1，如果不存在值为0的位元，则全部结果的每一位为1（例如 1010 0111 =&gt; 1010 1111）：</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">|</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>这个操作可以判断无符号证书是不是2的幂或者0.</p>
+<p>c. 将字组尾部的1全部变成0，如果尾部没有1，则不变（例如 1010 0111 =&gt; 1010 0000）</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>这个操作可以判断无符号证书是不是2 ...</p> <a class="btn btn-info xsmall" href="./pages/2014/06/14/hacker_delifht.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
         <a href="./pages/2014/06/08/head_first_proxy.html"><h2>《Head First 设计模式》学习笔记——代理模式</h2></a>
         <div class= "well small"> 2014-06-08
 
@@ -161,40 +198,6 @@ by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
 <h2>要点</h2>
 <p>当需要使用一个现有的类而其接口并不符合你的需要时，就使用适配器。</p>
 <p>当需要简化，并使用一个很大的接口或者一群负责的接口时，就使用外观模式 ...</p> <a class="btn btn-info xsmall" href="./pages/2014/06/02/head_first_adapter_facade.html">read more</a></div>
-    </div>	
-				
-
- 
-        
-
- 
-
-    <div class='article'>
-        <a href="./pages/2014/06/02/head_first_iterator_composite.html"><h2>《Head First 设计模式》学习笔记——迭代器模式 + 组合模式</h2></a>
-        <div class= "well small"> 2014-06-02
-
-by <a class="url fn" href="./author/sunjianhua.html">sunjianhua</a>
- 
-
-
- </div>
-        <div class="summary"><p>迭代器模式是与集合共生共死的，一般来说，我们只要实现一个集合，就需要同时提供这个集合的迭代器，就像java中的Collection，List、Set、Map等，这些集合都有自己的迭代器。假如我们要实现一个这样的新的容器，当然也需要引入迭代器模式，给我们的容器实现一个迭代器。</p>
-<h2>设计模式</h2>
-<p><strong>迭代器模式</strong>：提供一种方法顺序访问一个聚合对象中的各个元素，而不暴露其内部的表示。</p>
-<p>把游走的任务放在迭代器上，而不是聚合上。这样简化了聚合的接口和实现，也让责任各得其所。</p>
-<p><strong>组合模式</strong>：允许你将对象组合成树形结构来表现“整体/部分”分层结构。组合能让客户以一致的方式处理个别对象以及对象组合。</p>
-<p>使用组合结构，我们能把相同的操作应用在组合和个别对象上。换句话说，在大多数情况下，我们可以忽略对象组合和个别对象之间的差别。</p>
-<h2>设计原则</h2>
-<p><strong>单一责任</strong>：一个类应该只有一个引起变化的原因。</p>
-<h2>要点</h2>
-<p>迭代器允许访问聚合的元素，而不需要暴露他的内部结构。</p>
-<p>迭代器将遍历聚合的工作封装到一个对象中。</p>
-<p>迭代器提供了一个通用的接口，让我们遍历聚合的项，当我们编码使用聚合的项时，就
-可以使用多态机制。</p>
-<p>组合模式允许客户对个别对象和组合对象一视同仁。</p>
-<p>在实现组合模式时，有许多设计上的折中，你要根据需要平衡透明性和安全性。</p>
-<h2>模型匹配</h2>
-<p><strong>策略模型</strong>          封装可互换的相位 ...</p> <a class="btn btn-info xsmall" href="./pages/2014/06/02/head_first_iterator_composite.html">read more</a></div>
     </div>	
 				
 <div class="pagination">
